@@ -20,28 +20,32 @@ function App() {
     </Form>
     <Form>{/* 인증번호 입력 */}
       <Row>
-        <Input placeholder="인증번호 6자리" style={{width: '50%', float: 'left'}}></Input>
-        <Button type="submit" style={{display: 'inline', float: 'right'}}>인증번호요청</Button>
+        <Input placeholder="인증번호 6자리" style={{ width: '7.5em' }}></Input>
+        <Button type="submit" style={{ float: 'right' }}>인증번호요청</Button>
       </Row> 
     </Form> 
-    <div>{/* 회원가입 완료 취소 버튼 */}
-      {/* <span>
-        <button type="button">취소</button>
-      </span>
-      <span>
-        <button type="submit" ">회원가입</button>
-      </span> */}
-    </div>
+    <Form>{/* 회원가입 완료 취소 버튼 */}
+      <RowBtn>
+        <Button type="button" style={{width: '4.5em', backgroundColor: 'gainsboro'}}>취소</Button>
+        <Button type="submit" style={{width: '11.5em', float: 'right'}}>회원가입</Button>
+      </RowBtn>
+      
+    </Form>
   </React.Fragment>
   );
 }
 
+const RowBtn = styled.div`
+  width: 17em;
+  margin: 35px 0px;
+`;
+
 const Row = styled.div`
-  // place-self: normal;
+  width: 17em;
 `;
 
 const Button = styled.button`
-  width: 35%;
+  width: 6.5em;
   height: 44px;
   margin: 10px 0;
   // padding: 1px 15px;
@@ -64,14 +68,14 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  width: 82vw;
+  width: 15em;
   height: 40px;
   margin: 10px 0;
   padding: 1px 15px;
   border-radius: 10px;
   border-style: none;
   border: 1px solid #11A83C;
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const LogoSignup = styled.div`
