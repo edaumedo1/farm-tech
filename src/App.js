@@ -18,9 +18,11 @@ function App() {
       <Input placeholder="생년월일(8자리)"></Input>
       <Input placeholder="전화번호(' - ' 제외)"></Input>
     </Form>
-    <Form style={{flexDirection: 'row'}}>{/* 인증번호 입력 */}
-        <Input placeholder="인증번호 6자리" style={{width: '200px'}}></Input>
-        <button type="submit" style={{display: 'inline'}}>인증번호요청</button>
+    <Form>{/* 인증번호 입력 */}
+      <Row>
+        <Input placeholder="인증번호 6자리" style={{width: '50%', float: 'left'}}></Input>
+        <Button type="submit" style={{display: 'inline', float: 'right'}}>인증번호요청</Button>
+      </Row> 
     </Form> 
     <div>{/* 회원가입 완료 취소 버튼 */}
       {/* <span>
@@ -34,6 +36,21 @@ function App() {
   );
 }
 
+const Row = styled.div`
+  // place-self: normal;
+`;
+
+const Button = styled.button`
+  width: 35%;
+  height: 44px;
+  margin: 10px 0;
+  // padding: 1px 15px;
+  border-radius: 10px;
+  border-style: none;
+  border: 1px solid #11A83C;
+  font-size: 16px;
+  background-color: #C9DD98;
+`;
 const Logo512 = styled.img`
   width: 128px;
   height: 128px;
