@@ -1,0 +1,7 @@
+* { /* body 값 */
+  list-style: none;
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  text-decoration: none;
+}
