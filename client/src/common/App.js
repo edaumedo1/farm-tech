@@ -4,7 +4,6 @@ import Signup from "../pages/Signup/Signup";
 import Home from "../pages/Home/Home";
 import Test from "../pages/Test/Test";
 
-
 function App() {
   return (
     <BrowserRouter>
