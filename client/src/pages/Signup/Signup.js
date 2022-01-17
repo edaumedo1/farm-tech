@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import farmlogo from "../../images/farmlogo.PNG";
-import EButton from "../../events/EButton";
+import { useBackpage } from "../../events/useButton";
 
 function Signup() {
   return (
@@ -38,13 +38,17 @@ function Signup() {
           <Button
             type="button"
             style={{ width: "4.5em" }}
-            onClick={EButton.goBack}
+            onClick={ useBackpage() }
           >
             취소
           </Button>
           <Button
             type="submit"
-            style={{ width: "11.5em", float: "right", background: "#b5f37e" }}
+            style={{ 
+              width: "11.5em", 
+              float: "right", 
+              background: "#b5f37e" 
+            }}
           >
             회원가입
           </Button>
