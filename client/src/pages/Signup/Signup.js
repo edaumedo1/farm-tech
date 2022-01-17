@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import farmlogo from '../../images/farmlogo.PNG';
-import EButton from '../../common/events/EButton';
+import EButton from '../../events/EButton';
 
 function Signup() {
-  const goback = EButton();
   return (
     <div>
     {/* 로고 삽입 위치 */}
