@@ -16,4 +16,10 @@ app.get('/api/memberlist', function (req,res) {
     return res.json({success:true});
 })
 
+//에러 페이지 로드 404
+app.use(function(req, res, next) {
+     res.status(404).send('찾고자 하는 페이지가 없습니다. (404)');
+});
+
+
 app.listen(port, () => console.log(`서버가 켜졌습니다. 포트번호는 ${port} 입니다.2`));
