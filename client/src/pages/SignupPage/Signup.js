@@ -1,9 +1,10 @@
-
 import React from 'react';
 import styled from 'styled-components';
 import farmlogo from '../../images/farmlogo.PNG';
+import EButton from '../../common/events/EButton';
 
 function Signup() {
+  const goback = EButton();
   return (
     <div>
     {/* 로고 삽입 위치 */}
@@ -27,7 +28,7 @@ function Signup() {
     </Form> 
     <Form>{/* 회원가입 완료 취소 버튼 */}
       <Row style={{ margin: '1em 0' }}>
-        <Button type="button" style={{width: '4.5em'}}>취소</Button>
+        <Button type="button" style={{width: '4.5em'}} onClick={ EButton.goBack }>취소</Button>
         <Button type="submit" style={{width: '11.5em', float: 'right', background: '#b5f37e'}}>회원가입</Button>
       </Row>
       
