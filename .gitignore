@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+# 백엔드 노드 모듈 폴더
+/server/node_modules
 /.pnp
 .pnp.js
 
