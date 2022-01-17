@@ -4,7 +4,6 @@ import farmlogo from "../../images/farmlogo.PNG";
 import EButton from "../../events/EButton";
 
 function Signup() {
-  const goback = EButton();
   return (
     <div>
       {/* 로고 삽입 위치 */}
