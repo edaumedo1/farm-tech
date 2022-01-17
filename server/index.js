@@ -5,10 +5,12 @@ const port = 3000;
 app.use(express.json()); 
 app.use(express.urlencoded( {extended : false } ));
 
+
+
+
 app.get('/', function (req, res) {
   res.send('Hello World')
 })
-
 
 //통신예제용 간단한 코드. 무조건 true 반환
 app.get('/api/memberlist', function (req,res) {
