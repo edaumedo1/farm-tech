@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import farmlogo from "../../images/farmlogo.PNG";
-import { useBackpage } from "../../events/useButton";
+import { useMovePage } from "../../hook/events";
 
 function Signup() {
+  // const navigate = useNavigate();
   return (
     <div>
       {/* 로고 삽입 위치 */}
@@ -38,16 +39,16 @@ function Signup() {
           <Button
             type="button"
             style={{ width: "4.5em" }}
-            onClick={ useBackpage() }
+            onClick={useMovePage(-2)}
           >
             취소
           </Button>
           <Button
             type="submit"
-            style={{ 
-              width: "11.5em", 
-              float: "right", 
-              background: "#b5f37e" 
+            style={{
+              width: "11.5em",
+              float: "right",
+              background: "#b5f37e",
             }}
           >
             회원가입

@@ -17,7 +17,7 @@ function Test() {
   console.log(data);
   return (
     <div>
-      <h1>테스트 페이지입니다.</h1>
+      <h1>테스트 페이지입니다. 아래의 데이터는 맴버들입니다.</h1>
       {data.length !== 0
         ? data.map((el, index) => <div key={index}>{el}</div>)
         : ""}
