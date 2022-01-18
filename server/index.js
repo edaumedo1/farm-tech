@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const port = 8080;
+const DB = require('./DB/init');
+
+DB.connect();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -19,5 +22,5 @@ app.get("/api/memberlist", function (req, res) {
 });
 
 app.listen(port, () =>
-  console.log(`서버가 켜졌습니다. 포트번호는 ${port} 입니다.2`)
+  console.log(`서버측 포트번호는 ${port} 입니다.`)
 );
