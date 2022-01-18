@@ -6,7 +6,7 @@ import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
 function Signup() {
   // const navigate = useNavigate();
   return (
-    <div>
+    <Container>
       {/* 로고 삽입 위치 */}
       <LogoSignup>
         <Logo128 src={farmlogo} alt="React" />
@@ -16,9 +16,7 @@ function Signup() {
         <Input type="email" placeholder="이메일"></Input>
         <Input type="password" placeholder="비밀번호"></Input>
       </Form>
-      <Form>
-        {/* 인증번호 입력 */}
-      </Form>
+      <Form>{/* 인증번호 입력 */}</Form>
       <Form>
         {/* 회원가입 완료 취소 버튼 */}
         <Row style={{ margin: "1em 0 0 0" }}>
@@ -34,13 +32,21 @@ function Signup() {
           </Button>
         </Row>
         <Row>
-            <container></container>
-            <img src={kakaologin} alt="React" style={{ width: "17em", height: "40px" }}/>
+          <container></container>
+          <img
+            src={kakaologin}
+            alt="React"
+            style={{ width: "17em", height: "40px" }}
+          />
         </Row>
       </Form>
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  transform: translate(0, 50%);
+`;
 
 const Row = styled.div`
   width: 17em;
@@ -85,4 +91,3 @@ const LogoSignup = styled.div`
 `;
 
 export default Signup;
-
