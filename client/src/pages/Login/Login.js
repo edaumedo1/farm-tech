@@ -6,7 +6,7 @@ import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
 function Signup() {
   // const navigate = useNavigate();
   return (
-    <div>
+    <Container>
       {/* 로고 삽입 위치 */}
       <LogoSignup>
         <Logo128 src={farmlogo} alt="React" />
@@ -38,9 +38,13 @@ function Signup() {
             <img src={kakaologin} alt="React" style={{ width: "17em", height: "40px" }}/>
         </Row>
       </Form>
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  transform: translate(0,40%);
+`;
 
 const Row = styled.div`
   width: 17em;
