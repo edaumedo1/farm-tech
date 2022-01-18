@@ -32,7 +32,6 @@ function Signup() {
           </Button>
         </Row>
         <Row>
-          <container></container>
           <img
             src={kakaologin}
             alt="React"
@@ -45,7 +44,7 @@ function Signup() {
 }
 
 const Container = styled.div`
-  transform: translate(0, 50%);
+  transform: translate(0, 40%);
 `;
 
 const Row = styled.div`

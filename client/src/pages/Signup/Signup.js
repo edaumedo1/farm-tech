@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import farmlogo from "../../images/farmlogo.PNG";
 import { useMovePage } from "../../hook/events";
+// import Container from "../../elements/Container";
 
 function Signup() {
   // const navigate = useNavigate();
@@ -56,6 +57,11 @@ function Signup() {
           </Button>
         </Row>
       </Form>
+      {/* <Container display="flex" flexDirection="column">
+        <div>아</div>
+        <div>아</div>
+        <div>아</div>
+      </Container> */}
     </div>
   );
 }
