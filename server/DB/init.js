@@ -1,11 +1,9 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-const URI = process.env.MONGO_URI;
-
 function connect() {
     mongoose
-    .connect(URI)
+    .connect(process.env.MONGO_URI)
     .then(() => {
         console.log("몽고DB 연결됨");
     })
@@ -19,7 +17,7 @@ function connect() {
         } else if (err.message = "undefined") {
             console.log("3. .env파일이 없음.");
             console.log("4. .env파일을 다운받아서 최상위 폴더에 위치시킬 것.");
-            console.log("5. .env파일은 노션에 있음");
+            console.log("5. .env파일은 노션 Farm Tech 페이지에 있음");
         } else {
             console.log(err);
             console.log("원인 불명. 백엔드 팀한테 지원요청 할 것!");
