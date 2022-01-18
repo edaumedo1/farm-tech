@@ -1,2 +1,2 @@
-export const JOIN_USER_ASYNC = "join_user_async";
-export const REQUEST_AUTH_ASYNC = "request_auth_async";
+export const JOIN_USER = "join_user";
+export const REQUEST_AUTH = "request_auth";
