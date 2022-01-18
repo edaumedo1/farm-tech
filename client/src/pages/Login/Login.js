@@ -34,7 +34,6 @@ function Signup() {
           </Button>
         </Row>
         <Row>
-            <container></container>
             <img src={kakaologin} alt="React" style={{ width: "17em", height: "40px" }}/>
         </Row>
       </Form>

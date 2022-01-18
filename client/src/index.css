@@ -5,3 +5,10 @@
   padding: 0;
   text-decoration: none;
 }
+input:focus{
+  border: 2px solid #5bb40d;
+  outline: none;
+}
+button:active{
+  background-color: #cacaca;
+}
