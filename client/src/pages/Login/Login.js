@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import farmlogo from "../../images/farmlogo.PNG";
-import { useMovePage } from "../../hook/events";
+import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
 
 function Signup() {
   // const navigate = useNavigate();
@@ -12,48 +12,30 @@ function Signup() {
         <Logo128 src={farmlogo} alt="React" />
       </LogoSignup>
       <Form>
-        {/* 인증번호 입력 */}
-        <Row>
-          <Input type="email" placeholder="이메일"></Input>
-          <Input
-            placeholder="인증번호 6자리"
-            style={{ width: "9.5em" }}
-          ></Input>
-          <Button type="submit" style={{ float: "right" }}>
-            인증번호요청
-          </Button>
-        </Row>
+        {/* 회원가입 개인 정보 입력 */}
+        <Input type="email" placeholder="이메일"></Input>
+        <Input type="password" placeholder="비밀번호"></Input>
       </Form>
       <Form>
-        {/* 회원가입 개인 정보 입력 */}
-
-        <Input type="text" placeholder="이름"></Input>
-        <Input placeholder="별명(10자 이내)"></Input>
-        <Input type="password" placeholder="비밀번호"></Input>
-        <Input type="password" placeholder="비밀번호 확인"></Input>
-        <Input placeholder="생년월일(8자리)"></Input>
-        <Input placeholder="전화번호(' - ' 제외)"></Input>
+        {/* 인증번호 입력 */}
       </Form>
       <Form>
         {/* 회원가입 완료 취소 버튼 */}
-        <Row style={{ margin: "1em 0" }}>
-          <Button
-            type="button"
-            style={{ width: "4.5em" }}
-            onClick={useMovePage(-1)}
-          >
-            취소
-          </Button>
+        <Row style={{ margin: "1em 0 0 0" }}>
           <Button
             type="submit"
             style={{
-              width: "11.5em",
+              width: "17em",
               float: "right",
               background: "#b5f37e",
             }}
           >
-            회원가입
+            로그인
           </Button>
+        </Row>
+        <Row>
+            <container></container>
+            <img src={kakaologin} alt="React" style={{ width: "17em", height: "40px" }}/>
         </Row>
       </Form>
     </div>
@@ -68,6 +50,7 @@ const Button = styled.button`
   width: 6.5em;
   height: 40px;
   margin: 10px 0;
+  // padding: 1px 15px;
   border-radius: 10px;
   border-style: none;
   font-size: 16px;
@@ -102,3 +85,4 @@ const LogoSignup = styled.div`
 `;
 
 export default Signup;
+
