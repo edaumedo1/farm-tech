@@ -1,9 +1,12 @@
 {
-  "name": "farm-tech",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "server": "nodemon ./server/index.js",
+    "client": "cd client && yarn start",
+    "dev": "concurrently --kill-others \"yarn server\" \"yarn client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/edaumedo1/farm-tech/issues"
   },
-  "homepage": "https://github.com/edaumedo1/farm-tech#readme"
+  "homepage": "https://github.com/edaumedo1/farm-tech#readme",
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.2"
+  }
 }
