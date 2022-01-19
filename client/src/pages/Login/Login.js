@@ -48,20 +48,23 @@ function Signup() {
   );
 }
 
-
 const Footer = styled.div`
   text-align: center;
   font-size: 13px;
 `;
 
 const FooterSpan = styled.span`
-  width: 27em;
+  width: 21em;
+  gap: 76px;
   display: inline-flex;
   justify-content: space-around;
 `;
 
 const Container = styled.div`
-  transform: translate(0,40%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
 `;
 
 const Row = styled.div`
