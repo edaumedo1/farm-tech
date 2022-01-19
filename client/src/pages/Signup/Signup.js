@@ -28,6 +28,7 @@ function Signup() {
     if(minutes === 0 && seconds === 0){
       console.log("타이머 초기화 상태");
       authBtn.current.disabled = false;
+      setSuccessData(false);
       return;
     }
   }, [minutes, seconds])
@@ -40,13 +41,18 @@ function Signup() {
   //인증번호 요청할 때 사용하는 함수
   const Authorize = (e) => {
     e.preventDefault();
+    if(email===""){
+      alert('이메일 입력해주세요!');
+      return;
+    }
     const obj = {
       email: email,
     };
     authBtn.current.disabled = true;
     dispatch(requestAuth(obj)).then(res => {
       if(res.payload.success && authBtn.current){ 
-        setMinutes(5);
+        setMinutes(0);
+        setSeconds(59);
         setSuccessData(true);
       }
     });
@@ -103,7 +109,7 @@ function Signup() {
             value={authNumber}
             onChange={changeAuthNumber}
           />
-          <Button type="submit" ref={authBtn} style={{ float: "right" }}>
+          <Button type="submit" ref={authBtn} style={{ float: "right", fontWeight:"500" }}>
             인증번호요청
           </Button>
           {/* {successData && <div>{minutes}:{seconds}</div> } */}
@@ -163,6 +169,7 @@ const Button = styled.button`
   border-radius: 10px;
   border-style: none;
   font-size: 16px;
+  font-weight: 600
 `;
 const Logo128 = styled.img`
   width: 128px;
