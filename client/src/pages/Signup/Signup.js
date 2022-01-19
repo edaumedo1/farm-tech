@@ -97,22 +97,22 @@ function Signup() {
             onChange={changeEmail}
             placeholder="이메일"
           />
+          <RowContainer>
           <Input
             placeholder={`${ successData ? minutes+":"+seconds :"인증번호 6자리"}`}
             style={{ width: "9.5em" }}
             value={authNumber}
             onChange={changeAuthNumber}
           />
-          <Button type="submit" ref={authBtn} style={{ float: "right" }}>
-            인증번호요청
-          </Button>
+          <Button type="submit" ref={authBtn}>요청</Button>
+          <Button type="submit" style={{ float: "right" }}>확인</Button>
           {/* {successData && <div>{minutes}:{seconds}</div> } */}
+          </RowContainer>
         </Row>
       </Form>
 
       <Form>
         {/* 회원가입 개인 정보 입력 */}
-
         <Input type="text" placeholder="이름" value={name} onChange={changeName} />
         <Input placeholder="별명(10자 이내)" value={nickName} onChange={changeNickName} />
         <Input type="password" placeholder="비밀번호" value={password} onChange={changePassword} />
@@ -152,12 +152,19 @@ function Signup() {
   );
 }
 
+const RowContainer = styled.span`
+  width: 17em;
+  gap: 10px;
+  display: inline-flex;
+  justify-content: space-around;
+`;
+
 const Row = styled.div`
   width: 17em;
 `;
 
 const Button = styled.button`
-  width: 6.5em;
+  width: 3em;
   height: 40px;
   margin: 10px 0;
   border-radius: 10px;
