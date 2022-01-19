@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { joinUser, requestAuth } from "../../_actions/user_action";
+import { useDispatch, useSelector } from "react-redux";
+import { joinUser, requestAuth } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import { useMovePage } from "../../hook/events";
+import { useNavigate } from "react-router-dom";
 // import Container from "../../elements/Container";
 
 function Signup() {
   const dispatch = useDispatch();
-
+  const response = useSelector(state => state.user.user_success)
+  const navigate = useNavigate();
+  console.log(response)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [nickName, setNickName] = useState("");
@@ -16,6 +19,12 @@ function Signup() {
   const [birthDay, setBirthDay] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [authNumber, setAuthNumber] = useState("");
+
+  // useEffect(() => {
+  //   if(response){
+  //     navigate('/')
+  //   }
+  // },[response]);
 
   const onSignupHandler = (e) => {
     e.preventDefault();
@@ -27,7 +36,7 @@ function Signup() {
     const obj = {
       email: email,
     };
-    dispatch(requestAuth(obj));
+    dispatch(requestAuth(obj)).then(res => navigate('/'));
   };
 
   const changeEmail = (e) => {
