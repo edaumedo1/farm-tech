@@ -19,9 +19,10 @@ const initialState = {};
 //Reducer
 export default handleActions(
   {
+    //인증번호 요청
     [REQUEST_AUTH]: (state, action) =>
     produce(state, (draft) => {
-      draft.user_success = action.payload.success
+      draft.auth_number_success = action.payload.success
     })
   },
   initialState
