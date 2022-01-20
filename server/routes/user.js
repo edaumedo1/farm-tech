@@ -93,7 +93,7 @@ router.post('/find_email', function(req,res) {
         if(err) {
             res.status(500).json({success:false, why:err})
         } else if(result == null) {
-            res.status(401).json({success:false, why:"user not exists. 일치하는 회원정보 없음"})
+            res.status(401).json({success:false, why:"user not exists. 일치하는 회원정보 없음."})
         } else {
             res.status(200).json({success:true, email:result.email});
         }
