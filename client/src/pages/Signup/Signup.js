@@ -76,12 +76,20 @@ function Signup() {
         setSeconds(59);
         setSuccessData(true);
       }
+    }).catch(res =>{
+      if(res.request.status === 401){
+        alert('이미 있는 이메일 입니다.');
+        authBtn.current.disabled = false;
+        return;
+      }
     });
   };
 
 
   //회원가입 기능
   const onSignupHandler = (e) => {
+    const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+
     e.preventDefault();
     if(name === "" || email === "" || 
     nickName === "" || password === "" || 
@@ -89,6 +97,7 @@ function Signup() {
     phoneNumber === "" || authNumber === ""){
       return alert('모두 입력해주세요!');
     }
+
     const obj = {
       name,
       email,
@@ -98,10 +107,21 @@ function Signup() {
       phone_number: phoneNumber,
       auth_number: authNumber,
     }
+
+    if(!pwdCheck.test(password)){
+      return alert("비밀번호는 영문, 숫자, 특수문자 합 8~15자리가 되어야 합니다!");
+    }
+
+    if(password !== passwordCheck){
+      return alert("비밀번호가 일치하지 않습니다!");
+    }
+    
     dispatch(joinUser(obj)).then((res) => {
       if(res.payload.success) {
         alert('성공!');
         navigate('/login');
+      }else if(res.payload.why){
+        alert(res.payload.why);
       }
     });
   };
@@ -111,7 +131,9 @@ function Signup() {
     setEmail(e.target.value);
   };
   const changeNickName = (e) => {
-    setNickName(e.target.value);
+    if(e.target.value.length <=10){
+      setNickName(e.target.value);
+    }
   };
   const changeName = (e) => {
     setName(e.target.value);
@@ -120,10 +142,14 @@ function Signup() {
     setPassword(e.target.value);
   };
   const changePhoneNumber = (e) => {
-    setPhoneNumber(e.target.value);
+    if(e.target.value.length <=11){
+      setPhoneNumber(e.target.value);
+    }
   };
   const changeBirhDay = (e) => {
-    setBirthDay(e.target.value);
+    if(e.target.value.length <=8){
+      setBirthDay(e.target.value);
+    }
   };
   const changeAuthNumber = (e) => {
     setAuthNumber(e.target.value);
