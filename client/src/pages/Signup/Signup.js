@@ -5,10 +5,12 @@ import { joinUser, requestAuth } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import { useMovePage } from "../../hook/events";
 import useTimer from "../../hook/useTimer";
-import { Button, Form, Input } from "../../elements";
+import { useNavigate } from "react-router-dom";
+// import Container from "../../elements/Container";
 
 function Signup() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { minutes, seconds, setMinutes, setSeconds } = useTimer({
     mm: 0,
     ss: 0,
@@ -45,11 +47,9 @@ function Signup() {
       extensionBtn.current.disabled = "false"
     }
   }, [minutes, seconds]);
-  //회원가입 기능
-  const onSignupHandler = (e) => {
-    e.preventDefault();
-    dispatch(joinUser());
-  };
+
+  
+
   //타이머 연장 기능
   const ExtendHandler = () => {
     alert("3분이 더 추가 되었습니다.");
@@ -76,14 +76,64 @@ function Signup() {
         setSeconds(59);
         setSuccessData(true);
       }
+    }).catch(res =>{
+      if(res.request.status === 401){
+        alert('이미 있는 이메일 입니다.');
+        authBtn.current.disabled = false;
+        return;
+      }
     });
   };
+
+
+  //회원가입 기능
+  const onSignupHandler = (e) => {
+    const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+
+    e.preventDefault();
+    if(name === "" || email === "" || 
+    nickName === "" || password === "" || 
+    passwordCheck === "" || birthDay ==="" || 
+    phoneNumber === "" || authNumber === ""){
+      return alert('모두 입력해주세요!');
+    }
+
+    const obj = {
+      name,
+      email,
+      nickname: nickName,
+      password,
+      birth_day: birthDay.toString,
+      phone_number: phoneNumber,
+      auth_number: authNumber,
+    }
+
+    if(!pwdCheck.test(password)){
+      return alert("비밀번호는 영문, 숫자, 특수문자 합 8~15자리가 되어야 합니다!");
+    }
+
+    if(password !== passwordCheck){
+      return alert("비밀번호가 일치하지 않습니다!");
+    }
+    
+    dispatch(joinUser(obj)).then((res) => {
+      if(res.payload.success) {
+        alert('성공!');
+        navigate('/login');
+      }else if(res.payload.why){
+        alert(res.payload.why);
+      }
+    });
+  };
+
   // 입력 변화를 감지하는 함수들
   const changeEmail = (e) => {
     setEmail(e.target.value);
   };
   const changeNickName = (e) => {
-    setNickName(e.target.value);
+    if(e.target.value.length <=10){
+      setNickName(e.target.value);
+    }
   };
   const changeName = (e) => {
     setName(e.target.value);
@@ -92,10 +142,14 @@ function Signup() {
     setPassword(e.target.value);
   };
   const changePhoneNumber = (e) => {
-    setPhoneNumber(e.target.value);
+    if(e.target.value.length <=11){
+      setPhoneNumber(e.target.value);
+    }
   };
   const changeBirhDay = (e) => {
-    setBirthDay(e.target.value);
+    if(e.target.value.length <=8){
+      setBirthDay(e.target.value);
+    }
   };
   const changeAuthNumber = (e) => {
     setAuthNumber(e.target.value);
@@ -128,8 +182,8 @@ function Signup() {
               onChange={changeAuthNumber}
             />
             {/* 3항 연산자를 쓸 수 없다. 쓰게 되면 연장버튼에도 요청의 스타일이 묻게 된다. */}
-            {successData && <Button type="button" onClick={ExtendHandler} ref={extensionBtn} float= "right">연장</Button>}
-            {successData === false &&<Button type="submit" ref={authBtn} float= "right">
+            {successData && <Button type="button" onClick={ExtendHandler} ref={extensionBtn} style={{float: "right"}}>연장</Button>}
+            {successData === false &&<Button type="submit" ref={authBtn} style={{float: "right"}}>
               요청
             </Button>}
         </Row>
@@ -180,7 +234,7 @@ function Signup() {
         <Row style={{ margin: "1em 0" }}>
           <Button
             type="button"
-            // style={{ width: "4.5em" }}
+            style={{ width: "4.5em" }}
             onClick={useMovePage(-1)}
           >
             취소
@@ -188,14 +242,21 @@ function Signup() {
           <Button
             type="submit"
             id="subBtn"
-            width= "11.5em"
-            float= "right"
-            background= "#b5f37e"
+            style={{
+              width: "11.5em",
+              float: "right",
+              background: "#b5f37e",
+            }}
           >
             회원가입
           </Button>
         </Row>
       </Form>
+      {/* <Container display="flex" flexDirection="column">
+        <div>아</div>
+        <div>아</div>
+        <div>아</div>
+      </Container> */}
     </div>
   );
 }
@@ -204,9 +265,36 @@ const Row = styled.div`
   width: 17em;
 `;
 
+const Button = styled.button`
+  width: 4.5em;
+  height: 40px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border-style: none;
+  font-size: 16px;
+  font-weight: 600;
+`;
 const Logo128 = styled.img`
   width: 128px;
   height: 128px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+`;
+
+const Input = styled.input`
+  width: 17em;
+  height: 40px;
+  margin: 10px 0;
+  padding: 1px 15px;
+  border-radius: 10px;
+  border-style: none;
+  border: 1px solid #89db41; //11A83C
+  font-size: 16px;
 `;
 
 const LogoSignup = styled.div`
