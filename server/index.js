@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 8080;
+const port = 3001;
 const user = require('./routes/user');
 
 const DB = require('./DB/init');
@@ -25,5 +25,5 @@ app.get("/api/memberlist", function (req, res) {
 app.use("/api/user",user);
 
 app.listen(port, () =>
-  console.log(`서버측 포트번호는 ${port} 입니다.`)
+  console.log(`서버측 포트번호는 ${port} 입니다. 몽고DB 연결중...`)
 );
