@@ -12,9 +12,9 @@ function App() {
       {/* 페이지로써 라우팅 */}
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/Signup" element={<Signup />}></Route>
-        <Route path="/Login" element={<Login />}></Route>
-        <Route path="/Test" element={<Test />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/test" element={<Test />}></Route>
       </Routes>
       {/* <Routes>
         <Route path="/" element={<Home />}>

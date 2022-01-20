@@ -5,10 +5,12 @@ import { joinUser, requestAuth } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import { useMovePage } from "../../hook/events";
 import useTimer from "../../hook/useTimer";
+import { useNavigate } from "react-router-dom";
 // import Container from "../../elements/Container";
 
 function Signup() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { minutes, seconds, setMinutes, setSeconds } = useTimer({
     mm: 0,
     ss: 0,
@@ -45,11 +47,9 @@ function Signup() {
       extensionBtn.current.disabled = "false"
     }
   }, [minutes, seconds]);
-  //회원가입 기능
-  const onSignupHandler = (e) => {
-    e.preventDefault();
-    dispatch(joinUser());
-  };
+
+  
+
   //타이머 연장 기능
   const ExtendHandler = () => {
     alert("3분이 더 추가 되었습니다.");
@@ -78,6 +78,34 @@ function Signup() {
       }
     });
   };
+
+
+  //회원가입 기능
+  const onSignupHandler = (e) => {
+    e.preventDefault();
+    if(name === "" || email === "" || 
+    nickName === "" || password === "" || 
+    passwordCheck === "" || birthDay ==="" || 
+    phoneNumber === "" || authNumber === ""){
+      return alert('모두 입력해주세요!');
+    }
+    const obj = {
+      name,
+      email,
+      nickname: nickName,
+      password,
+      birth_day: birthDay.toString,
+      phone_number: phoneNumber,
+      auth_number: authNumber,
+    }
+    dispatch(joinUser(obj)).then((res) => {
+      if(res.payload.success) {
+        alert('성공!');
+        navigate('/login');
+      }
+    });
+  };
+
   // 입력 변화를 감지하는 함수들
   const changeEmail = (e) => {
     setEmail(e.target.value);
