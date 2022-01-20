@@ -1,4 +1,3 @@
 # Farm-tech App
 
-
-React Js Fundamentals Course 2021
+# 프론트엔드: 박건형, 김덕주

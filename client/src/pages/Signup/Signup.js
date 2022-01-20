@@ -1,40 +1,95 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { joinUser, requestAuth } from "../../_actions/user_action";
 import farmlogo from "../../images/farmlogo.PNG";
 import { useMovePage } from "../../hook/events";
+// import Container from "../../elements/Container";
 
 function Signup() {
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [nickName, setNickName] = useState("");
+  const [password, setPassword] = useState("");
+  const [birthDay, setBirthDay] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [authNumber, setAuthNumber] = useState("");
+
+  const onSignupHandler = (e) => {
+    e.preventDefault();
+    dispatch(joinUser());
+  };
+
+  const Authorize = (e) => {
+    e.preventDefault();
+    const obj = {
+      email: email,
+    };
+    dispatch(requestAuth(obj));
+  };
+
+  const changeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const changeNickName = (e) => {
+    setNickName(e.target.value);
+  };
+  const changeName = (e) => {
+    setName(e.target.value);
+  };
+  const changePassword = (e) => {
+    setPassword(e.target.value);
+  };
+  const changePhoneNumber = (e) => {
+    setPhoneNumber(e.target.value);
+  };
+  const changeBirhDay = (e) => {
+    setBirthDay(e.target.value);
+  };
+  const changeAuthNumber = (e) => {
+    setAuthNumber(e.target.value);
+  };
+
   return (
     <div>
       {/* 로고 삽입 위치 */}
       <LogoSignup>
         <Logo128 src={farmlogo} alt="React" />
       </LogoSignup>
-      <Form>
+      <Form onSubmit={Authorize}>
         {/* 인증번호 입력 */}
         <Row>
-          <Input type="email" placeholder="이메일"></Input>
+          <Input
+            type="email"
+            value={email}
+            onChange={changeEmail}
+            placeholder="이메일"
+          />
           <Input
             placeholder="인증번호 6자리"
             style={{ width: "9.5em" }}
-          ></Input>
+            value={authNumber}
+            onChange={changeAuthNumber}
+          />
           <Button type="submit" style={{ float: "right" }}>
             인증번호요청
           </Button>
         </Row>
       </Form>
+
       <Form>
         {/* 회원가입 개인 정보 입력 */}
 
-        <Input type="text" placeholder="이름"></Input>
-        <Input placeholder="별명(10자 이내)"></Input>
-        <Input type="password" placeholder="비밀번호"></Input>
-        <Input type="password" placeholder="비밀번호 확인"></Input>
-        <Input placeholder="생년월일(8자리)"></Input>
-        <Input placeholder="전화번호(' - ' 제외)"></Input>
+        <Input type="text" placeholder="이름" />
+        <Input placeholder="별명(10자 이내)" />
+        <Input type="password" placeholder="비밀번호" />
+        <Input type="password" placeholder="비밀번호 확인" />
+        <Input placeholder="생년월일(8자리)" />
+        <Input placeholder="전화번호(' - ' 제외)" />
       </Form>
-      <Form>
+      <Form onSubmit={onSignupHandler}>
         {/* 회원가입 완료 취소 버튼 */}
         <Row style={{ margin: "1em 0" }}>
           <Button
@@ -56,6 +111,11 @@ function Signup() {
           </Button>
         </Row>
       </Form>
+      {/* <Container display="flex" flexDirection="column">
+        <div>아</div>
+        <div>아</div>
+        <div>아</div>
+      </Container> */}
     </div>
   );
 }
