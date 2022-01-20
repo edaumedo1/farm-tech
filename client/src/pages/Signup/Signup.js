@@ -5,7 +5,7 @@ import { joinUser, requestAuth } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import { useMovePage } from "../../hook/events";
 import useTimer from "../../hook/useTimer";
-// import Container from "../../elements/Container";
+import { Button, Form, Input } from "../../elements";
 
 function Signup() {
   const dispatch = useDispatch();
@@ -128,8 +128,8 @@ function Signup() {
               onChange={changeAuthNumber}
             />
             {/* 3항 연산자를 쓸 수 없다. 쓰게 되면 연장버튼에도 요청의 스타일이 묻게 된다. */}
-            {successData && <Button type="button" onClick={ExtendHandler} ref={extensionBtn} style={{float: "right"}}>연장</Button>}
-            {successData === false &&<Button type="submit" ref={authBtn} style={{float: "right"}}>
+            {successData && <Button type="button" onClick={ExtendHandler} ref={extensionBtn} float= "right">연장</Button>}
+            {successData === false &&<Button type="submit" ref={authBtn} float= "right">
               요청
             </Button>}
         </Row>
@@ -180,7 +180,7 @@ function Signup() {
         <Row style={{ margin: "1em 0" }}>
           <Button
             type="button"
-            style={{ width: "4.5em" }}
+            // style={{ width: "4.5em" }}
             onClick={useMovePage(-1)}
           >
             취소
@@ -188,21 +188,14 @@ function Signup() {
           <Button
             type="submit"
             id="subBtn"
-            style={{
-              width: "11.5em",
-              float: "right",
-              background: "#b5f37e",
-            }}
+            width= "11.5em"
+            float= "right"
+            background= "#b5f37e"
           >
             회원가입
           </Button>
         </Row>
       </Form>
-      {/* <Container display="flex" flexDirection="column">
-        <div>아</div>
-        <div>아</div>
-        <div>아</div>
-      </Container> */}
     </div>
   );
 }
@@ -211,36 +204,9 @@ const Row = styled.div`
   width: 17em;
 `;
 
-const Button = styled.button`
-  width: 4.5em;
-  height: 40px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border-style: none;
-  font-size: 16px;
-  font-weight: 600;
-`;
 const Logo128 = styled.img`
   width: 128px;
   height: 128px;
-`;
-
-const Form = styled.form`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  box-sizing: border-box;
-`;
-
-const Input = styled.input`
-  width: 17em;
-  height: 40px;
-  margin: 10px 0;
-  padding: 1px 15px;
-  border-radius: 10px;
-  border-style: none;
-  border: 1px solid #89db41; //11A83C
-  font-size: 16px;
 `;
 
 const LogoSignup = styled.div`
