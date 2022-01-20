@@ -10,7 +10,7 @@ router.get('/',function(req,res,next){
 
 
 router.post('/register', function(req,res) {
-    const register_content = new userSchema({
+    const register_schema = new userSchema.userModel({
         email: req.body.email,
         name: req.body.name,
         nickname: req.body.nickname,
@@ -19,7 +19,8 @@ router.post('/register', function(req,res) {
         phone_number: req.body.phone_number,
         auth_number: req.body.auth_number
     })
-    console.log(register_content);
+    console.log(register_schema);
+    res.status(200).json({success:true, contents:register_schema});
 })
 
 router.post('/email', function(req,res){
