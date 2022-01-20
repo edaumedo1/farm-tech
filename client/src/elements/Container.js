@@ -6,19 +6,17 @@ function Container(props) {
 }
 
 Container.defaultProps = {
-  w: "100%",
-  h: "120px",
-  m: 0,
-  p: 0,
-  display: "block",
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -70%)",
 };
 
 const Div = styled.div`
-  width: ${({ w }) => w};
-  height: ${({ h }) => h};
-  display: ${({ display }) => display};
-  ${({ flexDirection }) =>
-    flexDirection ? "flex-direction:" + flexDirection : ""}
+  position: ${({ position }) => position};
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  transform: ${({ transform }) => transform};
 `;
 
 export default Container;
