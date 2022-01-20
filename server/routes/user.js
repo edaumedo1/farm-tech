@@ -15,9 +15,6 @@ router.get('/',function(req,res,next){
 
 router.post('/register', function(req,res) {
     const register_schema = new userSchema.userModel(req.body);
-    
-    
-
     emailAuth_DB.findOne({email:register_schema.email}, function(err,result) {
         if(err) {
             res.status(401).json({success:false, why:err})
