@@ -58,6 +58,18 @@ router.post('/email', function(req,res){
             callback();
         })
     }
+    
+    function sendEmail() {
+        Mail.sendEmail(
+            email_url,
+            `팜테크 FarmTech 회원가입 인증번호`,
+            `인증번호는 ${num} 입니다.`,
+            (result) => {
+                if (result.success === true) res.status(200).json({success:true});
+                else res.status(500).json({success:false, why:result.reason});
+            }
+        )
+    }
 
     user_DB.findOne({email:email_url}, function(err,result) {
         if(err) console.log(err);
@@ -67,20 +79,12 @@ router.post('/email', function(req,res){
             deleteData(()=> {
                 emailAuth_schema.save(function(err) {
                     if(err) res.status(500).json({success:false, why:err});
+                    else sendEmail();
                 });
             })
         }
     })
 
-    Mail.sendEmail(
-        email_url,
-        `팜테크 FarmTech 회원가입 인증번호`,
-        `인증번호는 ${num} 입니다.`,
-        (result) => {
-            if (result.success === true) res.status(200).json({success:true});
-            else res.status(500).json({success:false, why:result.reason});
-        }
-    )
 })
 
 /* 인증번호 따로 처리하는 부분
