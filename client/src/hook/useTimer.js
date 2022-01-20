@@ -11,6 +11,8 @@ const useTimer = ({ mm, ss }) => {
       }
       if (parseInt(seconds) === 0) {
         if (parseInt(minutes) === 0) {
+            setMinutes("0");
+            setSeconds("0");
             clearInterval(countdown);
         } else {
           setMinutes(parseInt(minutes) - 1);

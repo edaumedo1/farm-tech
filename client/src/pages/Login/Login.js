@@ -15,7 +15,7 @@ function Signup() {
       <Form>
         {/* 회원가입 개인 정보 입력 */}
         <Input type="email" placeholder="이메일"></Input>
-        <Input type="password" placeholder="비밀번호"></Input>
+        <Input type="password" placeholder="비밀번호" autoComplete="off"></Input>
       </Form>
       <Form>
         {/* 회원가입 완료 취소 버튼 */}
