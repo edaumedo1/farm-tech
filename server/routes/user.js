@@ -90,9 +90,9 @@ router.post('/find_email', function(req,res) {
 })
 
 router.post('/login', function(req,res) {
-    User.findOne({email:req.body.email}, function(err,resultDB) {
-        if(err) res.send(err);
-        else if(!resultDB) res.status(401).json({success:false, why:"email not exists."})
+    User.findOne({email:req.body.email})
+    .then((resultDB) => {
+        if(!resultDB) res.status(401).json({success:false, why:"email not exists."})
         else {
             resultDB.comparePassword(req.body.password, (err,result) => {
                 if(err) res.status(500).json({success:false, why:err});
@@ -105,6 +105,9 @@ router.post('/login', function(req,res) {
                 }
             })
         }
+    })
+    .catch((err) => {
+        if(err) res.status(500).json({success:false, why:err});
     })
 })
 
