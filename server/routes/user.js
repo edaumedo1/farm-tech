@@ -11,30 +11,6 @@ router.get('/',function(req,res,next){
 
 router.post('/register', function(req,res) {
     const register_schema = new User(req.body);
-    // emailAuthentication.findOne({email:register_schema.email}, function(err,result) {
-    //     if(err) {
-    //         res.status(401).json({success:false, why:err})
-    //     } else if (result == null) {
-    //         res.status(401).json({success:false, why:"Authentication Time Expired or Email mismatch."})
-    //     } else {
-    //         if(req.body.auth_number.trim() === result.auth_number) {   //인증번호 일치하는지 확인
-    //             register_schema.save(function(err) {                 //users DB에 회원정보 저장, pre hook으로 bcrypt 암호화(models-User.js) 회원가입 성공
-    //                 if(err){
-    //                     if(err.keyPattern.nickname == 1) {
-    //                         res.status(401).json({success:false, why:"nickName already exists."})
-    //                     } else {
-    //                         console.log(err);
-    //                         res.status(401).json({success:false, why:err})
-    //                     }
-    //                 } else {
-    //                     res.status(200).json({success:true});
-    //                 }
-    //             })
-    //         } else {
-    //             res.status(401).json({success:false, why:"Auth_Number mismatch."})
-    //         }
-    //     }
-    // })
 
     emailAuthentication.findOne({email:register_schema.email}).lean()
     .then((result) => {
@@ -111,6 +87,25 @@ router.post('/find_email', function(req,res) {
     .catch((err) => {
         res.status(500).json({success:false, why:err});
     })  
+})
+
+router.post('/login', function(req,res) {
+    User.findOne({email:req.body.email}, function(err,resultDB) {
+        if(err) res.send(err);
+        else if(!resultDB) res.status(401).json({success:false, why:"email not exists."})
+        else {
+            resultDB.comparePassword(req.body.password, (err,result) => {
+                if(err) res.status(500).json({success:false, why:err});
+                else if(!result) res.status(401).json({success:false, why:"password mismatch."});
+                else {
+                    resultDB.generateToken(function(err,token) {
+                        if (err) res.status(500).json({success:false, why: err});
+                        else return res.status(200).json({success:true, token: token});
+                    })   
+                }
+            })
+        }
+    })
 })
 
 module.exports = router;
