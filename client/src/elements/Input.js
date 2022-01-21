@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Input = React.forwardRef((props, ref) => {
-    return <Ipt {...props} ></Ipt>;
+    return <Ipt {...props} ref={ref} ></Ipt>;
 })
 
 Input.defaultProps = {

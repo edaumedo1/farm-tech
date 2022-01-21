@@ -17,7 +17,10 @@ function Signup() {
   });
 
   const authBtn = useRef(null);
-  const extensionBtn = useRef(null); 
+  const extensionBtn = useRef(null);
+  const signupBtn = useRef(null);
+  const authInput = useRef(null);
+
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,16 +41,11 @@ function Signup() {
       alert('다시 요청해주세요');
       setSuccessData(false);
       setLimit(false);
-      // if(authBtn.current && successData === false){
-      //   authBtn.current.disabled = false;
-      // }
     }
     if(extensionBtn.current && limit===true){
       extensionBtn.current.disabled = "false"
     }
   }, [limit, minutes, seconds, successData]);
-
-  
 
   //타이머 연장 기능
   const ExtendHandler = () => {
@@ -63,9 +61,11 @@ function Signup() {
       alert("이메일 입력해주세요!");
       return;
     }
+    
     const obj = {
       email: email,
     };
+
     if(authBtn.current){
       authBtn.current.disabled = true;
     }
@@ -114,6 +114,9 @@ function Signup() {
     if(password !== passwordCheck){
       return alert("비밀번호가 일치하지 않습니다!");
     }
+    if(signupBtn.current){
+      signupBtn.current.disabled = true;
+    }
     
     dispatch(joinUser(obj)).then((res) => {
       if(res.payload.success) {
@@ -122,9 +125,21 @@ function Signup() {
       }
     }).catch(res => {
       const data = res.response.data.why;
-      if(res.request.status === 401){
-        alert('인증번호가 틀렸습니다. 다시 입력해주세요!');
-        return;
+      
+      if(res.request.status === 401 && data === "Auth_Number mismatch."){
+        if(signupBtn.current && authInput.current) {
+          signupBtn.current.disabled = false;
+          authInput.current.focus();
+        }
+        return alert('인증번호가 틀렸습니다. 다시 입력해주세요!');
+      }
+      if(res.request.status === 401 && data === "Authentication Time Expired or Email mismatch."){
+        console.log(signupBtn.current, authInput.current);
+        if(signupBtn.current && authInput.current) {
+          signupBtn.current.disabled = false;
+          authInput.current.focus();
+        }
+        return alert('이메일 인증시간이 다 됐거나, 이메일이 틀립니다.');
       }
     });
   };
@@ -183,6 +198,7 @@ function Signup() {
               width="11.5em"
               value={authNumber}
               onChange={changeAuthNumber}
+              ref={authInput}
             />
             {/* 3항 연산자를 쓸 수 없다. 쓰게 되면 연장버튼에도 요청의 스타일이 묻게 된다. */}
             {successData && <Button type="button" onClick={ExtendHandler} ref={extensionBtn} float="right">연장</Button>}
@@ -248,6 +264,7 @@ function Signup() {
             width="11.5em"
             float="right"
             background="#b5f37e"
+            ref={signupBtn}
           >
             회원가입
           </Button>
