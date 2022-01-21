@@ -1,9 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# 카카오 정보
+/src/common/KakaoInfo.js
+
 # dependencies
 /node_modules
 /server/node_modules
-
 /.pnp
 .pnp.js
 

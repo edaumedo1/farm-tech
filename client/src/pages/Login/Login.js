@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loginUser } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
 import { Container, Button, Form, Input } from "../../elements";
-import {kakao_uri} from '../../common/KakaoInfo';
+import { kakao_uri } from '../../common/KakaoInfo';
 
 function Signup() {
   // 사용할 모듈 선언
