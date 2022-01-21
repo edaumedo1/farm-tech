@@ -22,10 +22,10 @@ function sendEmail(who,title,contents,callback) {
         /*html: `<b>${generatedAuthNumber}</b>`
            html도 가능하다.*/
     }).then(()=>{
-        console.log("메일을 성공적으로 송신했습니다.");
+        console.log("[backend] 메일을 성공적으로 송신했습니다.");
         callback ({success:true});
     }).catch((err) => {
-        console.log("메일 전송을 실패했습니다.");
+        console.log("[backend] 메일 전송을 실패했습니다.");
         console.log(err);
         callback ({success:false, reason: err});
     })
