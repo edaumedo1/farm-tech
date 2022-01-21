@@ -119,8 +119,12 @@ function Signup() {
       if(res.payload.success) {
         alert('성공!');
         navigate('/login');
-      }else if(res.payload.why){
-        alert(res.payload.why);
+      }
+    }).catch(res => {
+      const data = res.response.data.why;
+      if(res.request.status === 401){
+        alert('인증번호가 틀렸습니다. 다시 입력해주세요!');
+        return;
       }
     });
   };
