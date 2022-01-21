@@ -12,6 +12,7 @@ import { createAction, handleActions } from "redux-actions";
 //Actions
 const JOIN_USER = "join_user";
 const REQUEST_AUTH = "request_auth";
+const LOGIN_USER = "login_user";
 
 //Initial state
 const initialState = {};
@@ -23,6 +24,16 @@ export default handleActions(
     [REQUEST_AUTH]: (state, action) =>
     produce(state, (draft) => {
       draft.auth_number_success = action.payload.success
+    }),
+    //회원가입 요청
+    [JOIN_USER]: (state, action) =>
+    produce(state, (draft) => {
+      draft.signup_success = action.payload.success
+    }),
+    //로그인 요청
+    [LOGIN_USER]: (state, action) => 
+    produce(state, (draft) => {
+      draft.login_success = action.payload.success
     })
   },
   initialState
@@ -50,6 +61,16 @@ export const joinUser = (dataToSubmit) => {
     payload,
   };
 };
+
+export const loginUser = (dataToSubmit) => {
+  const payload = axios
+    .post('/api/user/login', dataToSubmit)
+    .then((res) => res.data);
+  return {
+    type: LOGIN_USER,
+    payload
+  }
+}
 
 //Action Creators: use redux-thunk
 

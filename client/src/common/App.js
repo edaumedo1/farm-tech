@@ -4,7 +4,7 @@ import Signup from "../pages/Signup/Signup";
 import Home from "../pages/Home/Home";
 import Test from "../pages/Test/Test";
 import Login from "../pages/Login/Login";
-
+import KakaoRedicrection from "./KakaoRedicrection"
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/test" element={<Test />}></Route>
+        <Route path="/oauth/:kakao" element={<KakaoRedicrection/>} />
       </Routes>
       {/* <Routes>
         <Route path="/" element={<Home />}>
