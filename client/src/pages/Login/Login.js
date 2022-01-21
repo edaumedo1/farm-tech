@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
-import { Container, Button, Form, Input } from "../../elements";
+import { Container, Button, Form, Input, Img, Box, Center} from "../../elements"; // STYLE
 import { kakao_uri } from '../../common/KakaoInfo';
 
 function Signup() {
@@ -51,15 +51,15 @@ function Signup() {
   return (
     <Container>
       {/* 로고 삽입 위치 */}
-      <LogoSignup>
-        <Logo128 src={farmlogo} alt="React" />
-      </LogoSignup>
+      <Center>
+        <Img src={farmlogo} alt="React" />
+      </Center>
       <Form onSubmit={onSubmitHandler}>
         {/* 회원가입 개인 정보 입력 */}
         <Input type="email" placeholder="이메일" value={email} onChange={changeEmail}></Input>
         <Input type="password" placeholder="비밀번호" value={password} onChange={changePassword} autoComplete="off"></Input>
         {/* 회원가입 완료 취소 버튼 */}
-        <Row style={{ margin: "1em 0 0 0" }}>
+        <Box margin="1em 0 0 0">
           <Button
             type="submit"
             width= "17em"
@@ -68,10 +68,10 @@ function Signup() {
           >
             로그인
           </Button>
-        </Row>
-        <Row>
-            <img src={kakaologin} alt="React" onClick={onClickHandler} style={{ width: "17em", height: "40px" }}/>
-        </Row>
+        </Box>
+        <Box>
+            <Img src={kakaologin} alt="React" onClick={onClickHandler} width="17em" height="40px"/>
+        </Box>
       </Form>
       <Footer>
         <FooterSpan>
@@ -95,21 +95,6 @@ const FooterSpan = styled.span`
   gap: 76px;
   display: inline-flex;
   justify-content: space-around;
-`;
-
-const Row = styled.div`
-  width: 17em;
-`;
-
-const Logo128 = styled.img`
-  width: 128px;
-  height: 128px;
-`;
-
-const LogoSignup = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 `;
 
 export default Signup;

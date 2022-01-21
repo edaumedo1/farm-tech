@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = React.forwardRef((props, ref) => {
-    console.log(props);
-
+    
     const children = props.children;
 
     return <Btn {...props} >{children}</Btn>;
