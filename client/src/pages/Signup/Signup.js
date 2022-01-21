@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { joinUser, requestAuth } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import { useMovePage } from "../../hook/events";
 import useTimer from "../../hook/useTimer";
 import { useNavigate } from "react-router-dom";
-// import Container from "../../elements/Container";
 
 function Signup() {
   const dispatch = useDispatch();
@@ -15,7 +14,6 @@ function Signup() {
     mm: 0,
     ss: 0,
   });
-  // const auth_number_success = useSelector(state => state.user.auth_number_success);
 
   const authBtn = useRef(null);
   const extensionBtn = useRef(null); 
@@ -46,7 +44,7 @@ function Signup() {
     if(extensionBtn.current && limit===true){
       extensionBtn.current.disabled = "false"
     }
-  }, [minutes, seconds]);
+  }, [limit, minutes, seconds, successData]);
 
   
 

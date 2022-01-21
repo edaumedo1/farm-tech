@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import farmlogo from "../../images/farmlogo.PNG";
 import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
 import { Link } from "react-router-dom";
 import { Container, Button, Form, Input } from "../../elements";
+import {useNavigate} from "react-router-dom";
 
 function Signup() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const changePassword = (e) => {
+    setPassword(e.target.value);
+  }
+
+  const changeEmail = (e) => {
+    setEmail(e.target.value);
+  }
+
   return (
     <Container>
       {/* 로고 삽입 위치 */}
@@ -15,8 +27,8 @@ function Signup() {
       </LogoSignup>
       <Form>
         {/* 회원가입 개인 정보 입력 */}
-        <Input type="email" placeholder="이메일"></Input>
-        <Input type="password" placeholder="비밀번호" autoComplete="off"></Input>
+        <Input type="email" placeholder="이메일" value={email} onChange={changeEmail}></Input>
+        <Input type="password" placeholder="비밀번호" value={password} onChange={changePassword} autoComplete="off"></Input>
       </Form>
       <Form>
         {/* 회원가입 완료 취소 버튼 */}
