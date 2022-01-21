@@ -1,40 +1,139 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { joinUser, requestAuth } from "../../_actions/user_action";
+import { useDispatch, useSelector } from "react-redux";
+import { joinUser, requestAuth } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import { useMovePage } from "../../hook/events";
+import useTimer from "../../hook/useTimer";
+import { useNavigate } from "react-router-dom";
 // import Container from "../../elements/Container";
 
 function Signup() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { minutes, seconds, setMinutes, setSeconds } = useTimer({
+    mm: 0,
+    ss: 0,
+  });
+  // const auth_number_success = useSelector(state => state.user.auth_number_success);
+
+  const authBtn = useRef(null);
+  const extensionBtn = useRef(null); 
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [birthDay, setBirthDay] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [authNumber, setAuthNumber] = useState("");
+  const [successData, setSuccessData] = useState(false);
+  const [limit, setLimit] = useState(false);
 
-  const onSignupHandler = (e) => {
-    e.preventDefault();
-    dispatch(joinUser());
-  };
+  //타이머에 감시자
+  useEffect(() => {
+    if (minutes === "0" && seconds === "0" && successData === true) {
+      console.log(minutes, typeof minutes);
+      console.log("타이머 초기화 상태");
+      alert('다시 요청해주세요');
+      setSuccessData(false);
+      setLimit(false);
+      // if(authBtn.current && successData === false){
+      //   authBtn.current.disabled = false;
+      // }
+    }
+    if(extensionBtn.current && limit===true){
+      extensionBtn.current.disabled = "false"
+    }
+  }, [minutes, seconds]);
 
+  
+
+  //타이머 연장 기능
+  const ExtendHandler = () => {
+    alert("3분이 더 추가 되었습니다.");
+    setMinutes(1 + minutes);
+    setLimit(true);
+  } 
+
+  //인증번호 요청할 때 사용하는 함수
   const Authorize = (e) => {
     e.preventDefault();
+    if (email === "") {
+      alert("이메일 입력해주세요!");
+      return;
+    }
     const obj = {
       email: email,
     };
-    dispatch(requestAuth(obj));
+    if(authBtn.current){
+      authBtn.current.disabled = true;
+    }
+    dispatch(requestAuth(obj)).then((res) => {
+      if (res.payload.success) {
+        setMinutes(0);
+        setSeconds(59);
+        setSuccessData(true);
+      }
+    }).catch(res =>{
+      if(res.request.status === 401){
+        alert('이미 있는 이메일 입니다.');
+        authBtn.current.disabled = false;
+        return;
+      }
+    });
   };
 
+
+  //회원가입 기능
+  const onSignupHandler = (e) => {
+    const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+
+    e.preventDefault();
+    if(name === "" || email === "" || 
+    nickName === "" || password === "" || 
+    passwordCheck === "" || birthDay ==="" || 
+    phoneNumber === "" || authNumber === ""){
+      return alert('모두 입력해주세요!');
+    }
+
+    const obj = {
+      name,
+      email,
+      nickname: nickName,
+      password,
+      birth_day: birthDay.toString,
+      phone_number: phoneNumber,
+      auth_number: authNumber,
+    }
+
+    if(!pwdCheck.test(password)){
+      return alert("비밀번호는 영문, 숫자, 특수문자 합 8~15자리가 되어야 합니다!");
+    }
+
+    if(password !== passwordCheck){
+      return alert("비밀번호가 일치하지 않습니다!");
+    }
+    
+    dispatch(joinUser(obj)).then((res) => {
+      if(res.payload.success) {
+        alert('성공!');
+        navigate('/login');
+      }else if(res.payload.why){
+        alert(res.payload.why);
+      }
+    });
+  };
+
+  // 입력 변화를 감지하는 함수들
   const changeEmail = (e) => {
     setEmail(e.target.value);
   };
   const changeNickName = (e) => {
-    setNickName(e.target.value);
+    if(e.target.value.length <=10){
+      setNickName(e.target.value);
+    }
   };
   const changeName = (e) => {
     setName(e.target.value);
@@ -43,20 +142,27 @@ function Signup() {
     setPassword(e.target.value);
   };
   const changePhoneNumber = (e) => {
-    setPhoneNumber(e.target.value);
+    if(e.target.value.length <=11){
+      setPhoneNumber(e.target.value);
+    }
   };
   const changeBirhDay = (e) => {
-    setBirthDay(e.target.value);
+    if(e.target.value.length <=8){
+      setBirthDay(e.target.value);
+    }
   };
   const changeAuthNumber = (e) => {
     setAuthNumber(e.target.value);
+  };
+  const changePasswordCheck = (e) => {
+    setPasswordCheck(e.target.value);
   };
 
   return (
     <div>
       {/* 로고 삽입 위치 */}
       <LogoSignup>
-        <Logo128 src={farmlogo} alt="React" />
+        <Logo128 src={farmlogo} alt="Farm Tech Logo" />
       </LogoSignup>
       <Form onSubmit={Authorize}>
         {/* 인증번호 입력 */}
@@ -67,27 +173,61 @@ function Signup() {
             onChange={changeEmail}
             placeholder="이메일"
           />
-          <Input
-            placeholder="인증번호 6자리"
-            style={{ width: "9.5em" }}
-            value={authNumber}
-            onChange={changeAuthNumber}
-          />
-          <Button type="submit" style={{ float: "right" }}>
-            인증번호요청
-          </Button>
+            <Input
+              placeholder={`${
+                successData ? minutes + ":" + seconds : "인증번호 6자리"
+              }`}
+              style={{ width: "11.5em" }}
+              value={authNumber}
+              onChange={changeAuthNumber}
+            />
+            {/* 3항 연산자를 쓸 수 없다. 쓰게 되면 연장버튼에도 요청의 스타일이 묻게 된다. */}
+            {successData && <Button type="button" onClick={ExtendHandler} ref={extensionBtn} style={{float: "right"}}>연장</Button>}
+            {successData === false &&<Button type="submit" ref={authBtn} style={{float: "right"}}>
+              요청
+            </Button>}
         </Row>
       </Form>
 
       <Form>
         {/* 회원가입 개인 정보 입력 */}
-
-        <Input type="text" placeholder="이름" />
-        <Input placeholder="별명(10자 이내)" />
-        <Input type="password" placeholder="비밀번호" />
-        <Input type="password" placeholder="비밀번호 확인" />
-        <Input placeholder="생년월일(8자리)" />
-        <Input placeholder="전화번호(' - ' 제외)" />
+        <Input
+          type="text"
+          placeholder="이름"
+          value={name}
+          onChange={changeName}
+        />
+        <Input
+          placeholder="별명(10자 이내)"
+          value={nickName}
+          onChange={changeNickName}
+        />
+        <Input
+          type="password"
+          placeholder="비밀번호"
+          value={password}
+          onChange={changePassword}
+          autoComplete="off"
+        />
+        <Input
+          type="password"
+          placeholder="비밀번호 확인"
+          value={passwordCheck}
+          onChange={changePasswordCheck}
+          autoComplete="off"
+        />
+        <Input
+          type="number"
+          placeholder="생년월일(8자리)"
+          value={birthDay}
+          onChange={changeBirhDay}
+        />
+        <Input
+          type="number"
+          placeholder="전화번호(' - ' 제외)"
+          value={phoneNumber}
+          onChange={changePhoneNumber}
+        />
       </Form>
       <Form onSubmit={onSignupHandler}>
         {/* 회원가입 완료 취소 버튼 */}
@@ -101,6 +241,7 @@ function Signup() {
           </Button>
           <Button
             type="submit"
+            id="subBtn"
             style={{
               width: "11.5em",
               float: "right",
@@ -125,12 +266,13 @@ const Row = styled.div`
 `;
 
 const Button = styled.button`
-  width: 6.5em;
+  width: 4.5em;
   height: 40px;
   margin: 10px 0;
   border-radius: 10px;
   border-style: none;
   font-size: 16px;
+  font-weight: 600;
 `;
 const Logo128 = styled.img`
   width: 128px;

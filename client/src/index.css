@@ -4,4 +4,12 @@
   box-sizing: border-box;
   padding: 0;
   text-decoration: none;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+input:focus{
+  border: 2px solid #5bb40d;
+  outline: none;
+}
+button:active{
+  background-color: #cacaca;
 }

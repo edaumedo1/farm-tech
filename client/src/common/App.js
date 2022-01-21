@@ -3,7 +3,8 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Signup from "../pages/Signup/Signup";
 import Home from "../pages/Home/Home";
 import Test from "../pages/Test/Test";
-import Login from "../pages/Login/Login"
+import Login from "../pages/Login/Login";
+
 
 function App() {
   return (
@@ -11,9 +12,9 @@ function App() {
       {/* 페이지로써 라우팅 */}
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/Signup" element={<Signup />}></Route>
-        <Route path="/Login" element={<Login />}></Route>
-        <Route path="/Test" element={<Test />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/test" element={<Test />}></Route>
       </Routes>
       {/* <Routes>
         <Route path="/" element={<Home />}>
