@@ -59,7 +59,7 @@ function Signup() {
         <Input type="email" placeholder="이메일" value={email} onChange={changeEmail}></Input>
         <Input type="password" placeholder="비밀번호" value={password} onChange={changePassword} autoComplete="off"></Input>
         {/* 회원가입 완료 취소 버튼 */}
-        <Box margin="1em 0 0 0">
+        <Box>
           <Button
             type="submit"
             width= "17em"
