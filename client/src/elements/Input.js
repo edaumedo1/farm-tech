@@ -7,7 +7,7 @@ const Input = React.forwardRef((props, ref) => {
 
 Input.defaultProps = {
     width: "17em",
-    height: "40px",
+    height: "2.5em",
     margin: "10px 0",
     padding: "1px 15px",
     borderRadius: "10px",

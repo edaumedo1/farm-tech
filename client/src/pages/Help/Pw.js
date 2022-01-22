@@ -1,20 +1,238 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { loginUser } from "../../redux/modules/user";
-import farmlogo from "../../images/farmlogo.PNG";
+import { joinUser, requestAuth } from "../../redux/modules/user";//////////!!!!!!! 수정요함
+import farmlogo from "../../images/farmlogo_min.PNG";
+import useTimer from "../../hook/useTimer";
 import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
 import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
-import { kakao_uri } from '../../common/KakaoInfo';
+import { useMovePage } from "../../hook/events";
 
 function Pw() {
- 
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { minutes, seconds, setMinutes, setSeconds } = useTimer({
+    mm: 0,
+    ss: 0,
+  });
+
+  const authBtn = useRef(null);
+  const extensionBtn = useRef(null);
+  const signupBtn = useRef(null);
+  const authInput = useRef(null);
+
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [nickName, setNickName] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+  const [birthDay, setBirthDay] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [authNumber, setAuthNumber] = useState("");
+  const [successData, setSuccessData] = useState(false);
+  const [limit, setLimit] = useState(false);
+
+  //타이머에 감시자
+  useEffect(() => {
+    if (minutes === "0" && seconds === "0" && successData === true) {
+      console.log(minutes, typeof minutes);
+      console.log("타이머 초기화 상태");
+      alert('다시 요청해주세요');
+      setSuccessData(false);
+      setLimit(false);
+    }
+    if(extensionBtn.current && limit===true){
+      extensionBtn.current.disabled = "false"
+    }
+  }, [limit, minutes, seconds, successData]);
+
+  //타이머 연장 기능
+  const ExtendHandler = () => {
+    alert("3분이 더 추가 되었습니다.");
+    setMinutes(1 + minutes);
+    setLimit(true);
+  } 
+
+  //인증번호 요청할 때 사용하는 함수
+  const Authorize = (e) => {
+    e.preventDefault();
+    if (email === "") {
+      alert("이메일 입력해주세요!");
+      return;
+    }
+    
+    const obj = {
+      email: email,
+    };
+
+    if(authBtn.current){
+      authBtn.current.disabled = true;
+    }
+    dispatch(requestAuth(obj)).then((res) => {
+      if (res.payload.success) {
+        setMinutes(0);
+        setSeconds(59);
+        setSuccessData(true);
+      }
+    }).catch(res =>{
+      if(res.request.status === 401){
+        alert('이미 있는 이메일 입니다.');
+        authBtn.current.disabled = false;
+        return;
+      }
+    });
+  };
+
+
+  // 회원가입 기능
+  const onSignupHandler = (e) => {
+    const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+
+    e.preventDefault();
+    if(name === "" || email === "" || 
+    nickName === "" || password === "" || 
+    passwordCheck === "" || birthDay ==="" || 
+    phoneNumber === "" || authNumber === ""){
+      return alert('모두 입력해주세요!');
+    }
+
+    const obj = {
+      name,
+      email,
+      nickname: nickName,
+      password,
+      birth_day: birthDay.toString,
+      phone_number: phoneNumber,
+      auth_number: authNumber,
+    }
+
+    if(!pwdCheck.test(password)){
+      return alert("비밀번호는 영문, 숫자, 특수문자 합 8~15자리가 되어야 합니다!");
+    }
+
+    if(password !== passwordCheck){
+      return alert("비밀번호가 일치하지 않습니다!");
+    }
+    if(signupBtn.current){
+      signupBtn.current.disabled = true;
+    }
+    
+    dispatch(joinUser(obj)).then((res) => {
+      if(res.payload.success) {
+        alert('성공!');
+        navigate('/login');
+      }
+    }).catch(res => {
+      const data = res.response.data.why;
+      
+      if(res.request.status === 401 && data === "Auth_Number mismatch."){
+        if(signupBtn.current && authInput.current) {
+          signupBtn.current.disabled = false;
+          authInput.current.focus();
+        }
+        return alert('인증번호가 틀렸습니다. 다시 입력해주세요!');
+      }
+      if(res.request.status === 401 && data === "Authentication Time Expired or Email mismatch."){
+        console.log(signupBtn.current, authInput.current);
+        if(signupBtn.current && authInput.current) {
+          signupBtn.current.disabled = false;
+          authInput.current.focus();
+        }
+        return alert('이메일 인증시간이 다 됐거나, 이메일이 틀립니다.');
+      }
+    });
+  };
+
+  // 입력 변화를 감지하는 함수들
+  const changeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const changeName = (e) => {
+    setName(e.target.value);
+  };
+  const changeBirhDay = (e) => {
+    if(e.target.value.length <=8){
+      setBirthDay(e.target.value);
+    }
+  };
+  const changeAuthNumber = (e) => {
+    setAuthNumber(e.target.value);
+  };
+  
   return (
-    <Container>
-        비밀번호찾기 페이지입니다.
+    <Container top="312px">
+      {/* 로고 삽입 위치 */}
+      <Box display="flex" margin="1em 0" gap="6em">
+        <Img src={farmlogo} width="36px" height="36px" alt="React" />
+        <h2>비밀번호 찾기</h2>
+      </Box>
+      <Form 
+      onSubmit={Authorize}
+      >
+        <Input
+          type="text"
+          placeholder="이름"
+          value={name}
+          onChange={changeName}
+        />
+        <Input
+          type="number"
+          placeholder="생년월일(8자리)"
+          value={birthDay}
+          onChange={changeBirhDay}
+        />
+      </Form>
+      <Form onSubmit={Authorize}>
+        {/* 인증번호 입력 */}
+        <Box width="17em">
+          <Input
+            type="email"
+            value={email}
+            onChange={changeEmail}
+            placeholder="이메일"
+          />
+            <Input
+              placeholder={`${
+                successData ? minutes + ":" + seconds : "인증번호 6자리"
+              }`}
+              width="11.5em"
+              value={authNumber}
+              onChange={changeAuthNumber}
+              ref={authInput}
+            />
+            {/* 3항 연산자를 쓸 수 없다. 쓰게 되면 연장버튼에도 요청의 스타일이 묻게 된다. */}
+            {successData && <Button type="button" onClick={ExtendHandler} ref={extensionBtn} float="right">연장</Button>}
+            {successData === false &&<Button type="submit" ref={authBtn} float="right">
+              요청
+            </Button>}
+        </Box>
+      </Form>
+      <Form onSubmit={onSignupHandler}>
+        {/* 회원가입 완료 취소 버튼 */}
+        <Box width="17em" margin="1em 0">
+          <Button
+            type="button"
+            width="4.5em"
+            onClick={useMovePage("/login")}
+          >
+            취소
+          </Button>
+          <Button
+            type="submit"
+            id="subBtn"
+            width="11.5em"
+            float="right"
+            background="#b5f37e"
+            ref={signupBtn}
+          >
+            회원가입
+          </Button>
+        </Box>
+      </Form>
     </Container>
   );
 }

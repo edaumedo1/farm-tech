@@ -254,7 +254,7 @@ function Signup() {
           <Button
             type="button"
             width="4.5em"
-            onClick={useMovePage(-1)}
+            onClick={useMovePage("/login")}
           >
             취소
           </Button>

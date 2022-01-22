@@ -76,7 +76,9 @@ function Signup() {
       <Footer>
         <FooterSpan>
           <span>
-          <span>이메일 찾기</span>∙<span>비밀번호 찾기</span> {/* 링크 좀 만들어줍쇼 */}
+          <Link to="/help/email">이메일 찾기</Link>
+          ∙
+          <Link to="/help/pw">비밀번호 찾기</Link> {/* 링크 좀 만들어줍쇼 */}
           </span>
           <Link to="/Signup">회원가입</Link>
         </FooterSpan>

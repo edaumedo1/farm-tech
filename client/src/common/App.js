@@ -18,8 +18,8 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/test" element={<Test />}></Route>
         <Route path="/oauth/kakao/*" element={<KakaoRedicrection/>} />
-        <Route path="/account/email" element={<Email />}></Route>
-        <Route path="/account/pw" element={<Pw />}></Route>
+        <Route path="/help/email" element={<Email />}></Route>
+        <Route path="/help/pw" element={<Pw />}></Route>
       </Routes>
       {/* <Routes>
         <Route path="/" element={<Home />}>
