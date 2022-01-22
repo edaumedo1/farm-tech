@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
-import { Container, Button, Form, Input, Img, Box, Center} from "../../elements"; // STYLE
+import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
 import { kakao_uri } from '../../common/KakaoInfo';
 
 function Signup() {
