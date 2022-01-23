@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { joinUser, requestAuth } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";

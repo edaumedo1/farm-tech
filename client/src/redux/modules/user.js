@@ -13,6 +13,7 @@ import { createAction, handleActions } from "redux-actions";
 const JOIN_USER = "join_user";
 const REQUEST_AUTH = "request_auth";
 const LOGIN_USER = "login_user";
+const HELP_EMAIL = "help_email";
 
 //Initial state
 const initialState = {};
@@ -34,7 +35,13 @@ export default handleActions(
     [LOGIN_USER]: (state, action) => 
     produce(state, (draft) => {
       draft.login_success = action.payload.success
-    })
+    }),
+    //이메일 찾기 요청
+    [HELP_EMAIL]: (state, action) => 
+    produce(state, (draft) => {
+      draft.help_email_success = action.payload.success
+      draft.user_email = action.payload.email //server로부터 받는 data
+    }),
   },
   initialState
 );
@@ -68,7 +75,17 @@ export const loginUser = (dataToSubmit) => {
     .then((res) => res.data);
   return {
     type: LOGIN_USER,
-    payload
+    payload,
+  }
+}
+
+export const helpEmail = (dataToSubmit) => {
+  const payload = axios
+    .post('/api/user/find_email', dataToSubmit)
+    .then((res) => res.data);
+  return {
+    type: HELP_EMAIL,
+    payload,
   }
 }
 
