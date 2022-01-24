@@ -20,6 +20,7 @@ function App() {
         <Route path="/oauth/kakao/*" element={<KakaoRedicrection/>} />
         <Route path="/help/email" element={<Email />}></Route>
         <Route path="/help/pw" element={<Pw />}></Route>
+        <Route path="*" element={<div>없는 페이지</div>}></Route>
       </Routes>
       {/* <Routes>
         <Route path="/" element={<Home />}>

@@ -9,7 +9,7 @@ import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
 import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
 import { kakao_uri } from '../../common/KakaoInfo';
 
-function Signup() {
+function Login() {
   // 사용할 모듈 선언
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ function Signup() {
           ∙
           <Link to="/help/pw">비밀번호 찾기</Link> {/* 링크 좀 만들어줍쇼 */}
           </span>
-          <Link to="/Signup">회원가입</Link>
+          <Link to="/signup">회원가입</Link>
         </FooterSpan>
       </Footer>
     </Container>
@@ -99,5 +99,5 @@ const FooterSpan = styled.span`
   justify-content: space-around;
 `;
 
-export default Signup;
+export default Login;
 

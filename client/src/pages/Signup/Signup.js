@@ -73,14 +73,12 @@ function Signup() {
         setMinutes(0);
         setSeconds(59);
         setSuccessData(true);
-      }
-    }).catch(res =>{
-      if(res.request.status === 401){
+      }else if(res.payload.why === "Email already exists."){
         alert('이미 있는 이메일 입니다.');
         authBtn.current.disabled = false;
         return;
       }
-    });
+    })
   };
 
 
@@ -122,17 +120,15 @@ function Signup() {
         alert('성공!');
         navigate('/login');
       }
-    }).catch(res => {
-      const data = res.response.data.why;
-      
-      if(res.request.status === 401 && data === "Auth_Number mismatch."){
+
+      if(res.payload.why === "Auth_Number mismatch."){
         if(signupBtn.current && authInput.current) {
           signupBtn.current.disabled = false;
           authInput.current.focus();
         }
         return alert('인증번호가 틀렸습니다. 다시 입력해주세요!');
       }
-      if(res.request.status === 401 && data === "Authentication Time Expired or Email mismatch."){
+      if(res.payload.why === "Authentication Time Expired or Email mismatch."){
         console.log(signupBtn.current, authInput.current);
         if(signupBtn.current && authInput.current) {
           signupBtn.current.disabled = false;
@@ -140,7 +136,7 @@ function Signup() {
         }
         return alert('이메일 인증시간이 다 됐거나, 이메일이 틀립니다.');
       }
-    });
+    })
   };
 
   // 입력 변화를 감지하는 함수들
