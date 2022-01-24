@@ -16,8 +16,8 @@ function Email() {
   const dispatch = useDispatch();
 
   const helpBtn = useRef(null);
-  const authInput = useRef(null);
-
+  
+  var click = false;
 
   const [name, setName] = useState("");
   const [birthDay, setBirthDay] = useState("");
@@ -38,30 +38,25 @@ function Email() {
     }
 
     if(helpBtn.current){
-      helpBtn.current.disabled = true;
+      click = true;
     }
     
     dispatch(helpEmail(obj)).then((res) => {
+      click = true;
       if(res.payload.success) {
-        alert('성공!');
+        if(helpBtn.current) {
+          helpBtn.current.disabled = false;
+        }
+        return ( click, alert('성공!'))
       }
     }).catch(res => {
       const data = res.response.data.why;
       
       if(res.request.status === 401 && data === "user not exists."){
-        if(helpBtn.current && authInput.current) {
+        if(helpBtn.current) {
           helpBtn.current.disabled = false;
-          authInput.current.focus();
         }
-        return alert('가입하지 않은 사용자입니다.');
-      }
-      if(res.request.status === 401 && data === "Authentication Time Expired or Email mismatch."){
-        console.log(helpBtn.current, authInput.current);
-        if(helpBtn.current && authInput.current) {
-          helpBtn.current.disabled = false;
-          authInput.current.focus();
-        }
-        return alert('이메일 인증시간이 다 됐거나, 이메일이 틀립니다.');
+          return (click , alert('가입하지 않은 사용자입니다.'))
       }
     });
   };
@@ -110,10 +105,9 @@ function Email() {
           onChange={changePhoneNumber}
         />
         
-          {
-            {help_email} !== false ? <div>{user_email}</div> : <div>가입하지 않은 사용자입니다.</div>
-          }
-        
+          { help_email !== undefined ? <div>{user_email}</div> : (click !== false ? <div>가입하지 않은 사용자입니다.</div>:null )}
+          {console.log("click:" + click)}
+
         <Box width="17em" margin="1em 0">
           <Button
             type="button"
