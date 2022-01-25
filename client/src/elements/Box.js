@@ -13,6 +13,8 @@ Box.defaultProps = {
     margin: "0px",
     display: "block",
     gap: "0px",
+    textAlign: "left",
+    padding: "0px",
 };
 
 const Div = styled.div`
@@ -21,6 +23,12 @@ const Div = styled.div`
     margin: ${({ margin}) => margin };
     display: ${({ display}) => display };
     gap: ${({ gap}) => gap };
+    text-align: ${({ textAlign}) => textAlign };
+    padding: ${({ padding}) => padding };
+    ${({ background }) => background ? "background:" + background : ""};
+    ${({ borderRadius }) => borderRadius ? "border-radius:" + borderRadius : ""};
+    ${({ fontWeight }) => fontWeight ? "font-weight:" + fontWeight : ""};
+
 `;
 
 export default Box;

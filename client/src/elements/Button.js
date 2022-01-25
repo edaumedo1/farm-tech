@@ -15,7 +15,7 @@ Button.defaultProps = {
     borderRadius: "10px",
     borderStyle: "none",
     fontSize: "16px",
-    fontWeight: "600",
+    fontWeight: "bold",
 };
 
 const Btn = styled.button`

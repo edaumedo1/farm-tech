@@ -10,14 +10,9 @@ import { useMovePage } from "../../hook/events";
 function Email() {
   const help_email = useSelector((state) => state.user.help_email_success);
   const user_email = useSelector((state) => state.user.user_email);
-
-  console.log(help_email);
-  console.log(user_email);
   const dispatch = useDispatch();
 
   const helpBtn = useRef(null);
-  
-  var click = false;
 
   const [name, setName] = useState("");
   const [birthDay, setBirthDay] = useState("");
@@ -36,18 +31,13 @@ function Email() {
       birth_day: birthDay.toString,
       phone_number: phoneNumber,
     }
-
-    if(helpBtn.current){
-      click = true;
-    }
     
     dispatch(helpEmail(obj)).then((res) => {
-      click = true;
       if(res.payload.success) {
         if(helpBtn.current) {
           helpBtn.current.disabled = false;
         }
-        return ( click, alert('성공!'))
+        return ( alert('성공!'))
       }
     }).catch(res => {
       const data = res.response.data.why;
@@ -56,10 +46,12 @@ function Email() {
         if(helpBtn.current) {
           helpBtn.current.disabled = false;
         }
-          return (click , alert('가입하지 않은 사용자입니다.'))
+          return ( alert('가입하지 않은 사용자입니다.'))
       }
     });
   };
+
+  const MovePage = useMovePage("/login");
 
   // 입력 변화를 감지하는 함수들
   const changeName = (e) => {
@@ -84,48 +76,23 @@ function Email() {
         <Img src={farmlogo} width="36px" height="36px" alt="React" />
         <h2>이메일 찾기</h2>
       </Box>
-      <Form onSubmit={ onSubmitHandler }
-      >
-        <Input
-          type="text"
-          placeholder="이름"
-          value={name}
-          onChange={changeName}
-        />
-        <Input
-          type="number"
-          placeholder="생년월일(8자리)"
-          value={birthDay}
-          onChange={changeBirhDay}
-        />
-        <Input
-          type="number"
-          placeholder="전화번호(' - ' 제외)"
-          value={phoneNumber}
-          onChange={changePhoneNumber}
-        />
+      <Form onSubmit={ onSubmitHandler } >
+        { help_email !== true && <Input type="text" placeholder="이름" value={name} onChange={changeName} />}
+        { help_email !== true && <Input type="number" placeholder="생년월일(8자리)" value={birthDay} onChange={changeBirhDay} />}
+        { help_email !== true && <Input type="number" placeholder="전화번호(' - ' 제외)" value={phoneNumber} onChange={changePhoneNumber} />}
+        { help_email === true && 
+        <Box width="17em" height="11.25em" background="#eaffd7" borderRadius="10px">
+          <Box textAlign="center" padding="4.875em 0px" fontWeight="bold">{user_email}</Box>
+        </Box>
+        }
         
-          { help_email !== undefined ? <div>{user_email}</div> : (click !== false ? <div>가입하지 않은 사용자입니다.</div>:null )}
-          {console.log("click:" + click)}
+        {console.log("user_email :" + user_email)}
+        {console.log("help_email :" + help_email)}
 
         <Box width="17em" margin="1em 0">
-          <Button
-            type="button"
-            width="4.5em"
-            onClick={useMovePage("/login")}
-          >
-            취소
-          </Button>
-          <Button
-            type="submit"
-            id="subBtn"
-            width="11.5em"
-            float="right"
-            background="#b5f37e"
-            ref={helpBtn}
-          >
-            다음
-          </Button>
+          { help_email === true && <Button type="button" width="17em" onClick={ MovePage } background="#b5f37e">로그인하러가기</Button> }
+          { help_email !== true && <Button type="button" width="4.5em" onClick={ MovePage }>취소</Button> }
+          { help_email !== true && <Button type="submit" id="subBtn" width="11.5em" float="right" background="#b5f37e" ref={helpBtn} >다음</Button> }
         </Box>
       </Form>
     </Container>
