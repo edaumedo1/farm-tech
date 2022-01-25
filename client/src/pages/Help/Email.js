@@ -37,21 +37,24 @@ function Email() {
         if(helpBtn.current) {
           helpBtn.current.disabled = false;
         }
-        return ( alert('성공!'))
+        return ( alert('성공!'));
       }
+      console.log(res.request.status);
     }).catch(res => {
       const data = res.response.data.why;
-      
+      console.log(111);
       if(res.request.status === 401 && data === "user not exists."){
+        console.log(222);
         if(helpBtn.current) {
           helpBtn.current.disabled = false;
         }
-          return ( alert('가입하지 않은 사용자입니다.'))
+          return ( alert('가입하지 않은 사용자입니다.'));
       }
     });
   };
 
   const MovePage = useMovePage("/login");
+  // const DelEmail =user_email(false);
 
   // 입력 변화를 감지하는 함수들
   const changeName = (e) => {
