@@ -99,7 +99,7 @@ function Signup() {
       email,
       nickname: nickName,
       password,
-      birth_day: birthDay.toString,
+      birth_day: birthDay,
       phone_number: phoneNumber,
       auth_number: authNumber,
     }
