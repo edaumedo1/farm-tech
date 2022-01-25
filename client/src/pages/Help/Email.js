@@ -11,7 +11,6 @@ function Email() {
   const help_email = useSelector((state) => state.user.help_email_success);
   const user_email = useSelector((state) => state.user.user_email);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const helpBtn = useRef(null);
 
