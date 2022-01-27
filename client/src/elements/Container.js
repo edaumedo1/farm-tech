@@ -7,7 +7,7 @@ function Container(props) {
 
 Container.defaultProps = {
   position: "absolute",
-  top: "50%",
+  top: "270px",
   left: "50%",
   transform: "translate(-50%, -70%)",
 };

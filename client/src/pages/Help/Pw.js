@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { joinUser, requestAuth } from "../../redux/modules/user";
-import farmlogo from "../../images/farmlogo.PNG";
-import { useMovePage } from "../../hook/events";
+import styled from "styled-components";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { joinUser, requestAuth } from "../../redux/modules/user";//////////!!!!!!! 수정요함
+import farmlogo from "../../images/farmlogo_min.PNG";
 import useTimer from "../../hook/useTimer";
-import { useNavigate } from "react-router-dom";
-import { Img, Input, Form, Button, Box, Center } from "../../elements"; // STYLE
+import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
+import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
+import { useMovePage } from "../../hook/events";
 
-function Signup() {
+function Pw() {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { minutes, seconds, setMinutes, setSeconds } = useTimer({
@@ -73,16 +77,18 @@ function Signup() {
         setMinutes(0);
         setSeconds(59);
         setSuccessData(true);
-      }else if(res.payload.why === "Email already exists."){
+      }
+    }).catch(res =>{
+      if(res.request.status === 401){
         alert('이미 있는 이메일 입니다.');
         authBtn.current.disabled = false;
         return;
       }
-    })
+    });
   };
 
 
-  //회원가입 기능
+  // 회원가입 기능
   const onSignupHandler = (e) => {
     const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
 
@@ -99,7 +105,7 @@ function Signup() {
       email,
       nickname: nickName,
       password,
-      birth_day: birthDay,
+      birth_day: birthDay.toString,
       phone_number: phoneNumber,
       auth_number: authNumber,
     }
@@ -120,15 +126,17 @@ function Signup() {
         alert('성공!');
         navigate('/login');
       }
-
-      if(res.payload.why === "Auth_Number mismatch."){
+    }).catch(res => {
+      const data = res.response.data.why;
+      
+      if(res.request.status === 401 && data === "Auth_Number mismatch."){
         if(signupBtn.current && authInput.current) {
           signupBtn.current.disabled = false;
           authInput.current.focus();
         }
         return alert('인증번호가 틀렸습니다. 다시 입력해주세요!');
       }
-      if(res.payload.why === "Authentication Time Expired or Email mismatch."){
+      if(res.request.status === 401 && data === "Authentication Time Expired or Email mismatch."){
         console.log(signupBtn.current, authInput.current);
         if(signupBtn.current && authInput.current) {
           signupBtn.current.disabled = false;
@@ -136,28 +144,15 @@ function Signup() {
         }
         return alert('이메일 인증시간이 다 됐거나, 이메일이 틀립니다.');
       }
-    })
+    });
   };
 
   // 입력 변화를 감지하는 함수들
   const changeEmail = (e) => {
     setEmail(e.target.value);
   };
-  const changeNickName = (e) => {
-    if(e.target.value.length <=10){
-      setNickName(e.target.value);
-    }
-  };
   const changeName = (e) => {
     setName(e.target.value);
-  };
-  const changePassword = (e) => {
-    setPassword(e.target.value);
-  };
-  const changePhoneNumber = (e) => {
-    if(e.target.value.length <=11){
-      setPhoneNumber(e.target.value);
-    }
   };
   const changeBirhDay = (e) => {
     if(e.target.value.length <=8){
@@ -167,16 +162,30 @@ function Signup() {
   const changeAuthNumber = (e) => {
     setAuthNumber(e.target.value);
   };
-  const changePasswordCheck = (e) => {
-    setPasswordCheck(e.target.value);
-  };
-
+  
   return (
-    <div>
+    <Container top="312px">
       {/* 로고 삽입 위치 */}
-      <Center>
-        <Img src={farmlogo} alt="Farm Tech Logo" />
-      </Center>
+      <Box display="flex" margin="1em 0" gap="6em">
+        <Img src={farmlogo} width="36px" height="36px" alt="React" />
+        <h2>비밀번호 찾기</h2>
+      </Box>
+      <Form 
+      onSubmit={Authorize}
+      >
+        <Input
+          type="text"
+          placeholder="이름"
+          value={name}
+          onChange={changeName}
+        />
+        <Input
+          type="number"
+          placeholder="생년월일(8자리)"
+          value={birthDay}
+          onChange={changeBirhDay}
+        />
+      </Form>
       <Form onSubmit={Authorize}>
         {/* 인증번호 입력 */}
         <Box width="17em">
@@ -202,47 +211,6 @@ function Signup() {
             </Button>}
         </Box>
       </Form>
-
-      <Form>
-        {/* 회원가입 개인 정보 입력 */}
-        <Input
-          type="text"
-          placeholder="이름"
-          value={name}
-          onChange={changeName}
-        />
-        <Input
-          placeholder="별명(10자 이내)"
-          value={nickName}
-          onChange={changeNickName}
-        />
-        <Input
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={changePassword}
-          autoComplete="off"
-        />
-        <Input
-          type="password"
-          placeholder="비밀번호 확인"
-          value={passwordCheck}
-          onChange={changePasswordCheck}
-          autoComplete="off"
-        />
-        <Input
-          type="number"
-          placeholder="생년월일(8자리)"
-          value={birthDay}
-          onChange={changeBirhDay}
-        />
-        <Input
-          type="number"
-          placeholder="전화번호(' - ' 제외)"
-          value={phoneNumber}
-          onChange={changePhoneNumber}
-        />
-      </Form>
       <Form onSubmit={onSignupHandler}>
         {/* 회원가입 완료 취소 버튼 */}
         <Box width="17em" margin="1em 0">
@@ -265,8 +233,9 @@ function Signup() {
           </Button>
         </Box>
       </Form>
-    </div>
+    </Container>
   );
 }
 
-export default Signup;
+export default Pw;
+

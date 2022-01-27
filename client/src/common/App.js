@@ -4,7 +4,9 @@ import Signup from "../pages/Signup/Signup";
 import Home from "../pages/Home/Home";
 import Test from "../pages/Test/Test";
 import Login from "../pages/Login/Login";
-import KakaoRedicrection from "./KakaoRedicrection"
+import KakaoRedicrection from "./KakaoRedicrection";
+import Email from "../pages/Help/Email";
+import Pw from "../pages/Help/Pw";
 
 function App() {
   return (
@@ -16,6 +18,9 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/test" element={<Test />}></Route>
         <Route path="/oauth/kakao/*" element={<KakaoRedicrection/>} />
+        <Route path="/help/email" element={<Email />}></Route>
+        <Route path="/help/pw" element={<Pw />}></Route>
+        <Route path="*" element={<div>없는 페이지</div>}></Route>
       </Routes>
       {/* <Routes>
         <Route path="/" element={<Home />}>

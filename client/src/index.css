@@ -6,10 +6,20 @@
   text-decoration: none;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
+a:visited{
+  color: black;
+}
+
+#subBtn:active{
+  background-color: #5bb40d;
+}
+
 input:focus{
   border: 2px solid #5bb40d;
   outline: none;
 }
+
 button:active{
   background-color: #cacaca;
 }

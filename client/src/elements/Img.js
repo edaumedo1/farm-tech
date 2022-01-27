@@ -12,11 +12,13 @@ const Img = React.forwardRef((props, ref) => {
 Img.defaultProps = {
     width: "128px",
     height: "128px",
+    display: "block",
 };
 
 const Image = styled.img`
     width: ${({ width }) => width };
     height: ${({ height }) => height };
+    display: ${({ display }) => display };
 `;
 
 export default Img;

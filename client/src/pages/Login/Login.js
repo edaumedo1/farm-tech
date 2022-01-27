@@ -6,10 +6,10 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo.PNG";
 import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
-import { Container, Button, Form, Input, Img, Box, Center} from "../../elements"; // STYLE
+import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
 import { kakao_uri } from '../../common/KakaoInfo';
 
-function Signup() {
+function Login() {
   // 사용할 모듈 선언
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ function Signup() {
         <Input type="email" placeholder="이메일" value={email} onChange={changeEmail}></Input>
         <Input type="password" placeholder="비밀번호" value={password} onChange={changePassword} autoComplete="off"></Input>
         {/* 회원가입 완료 취소 버튼 */}
-        <Box margin="1em 0 0 0">
+        <Box>
           <Button
             type="submit"
             width= "17em"
@@ -76,9 +76,11 @@ function Signup() {
       <Footer>
         <FooterSpan>
           <span>
-          <span>이메일 찾기</span>∙<span>비밀번호 찾기</span> {/* 링크 좀 만들어줍쇼 */}
+          <Link to="/help/email">이메일 찾기</Link>
+          ∙
+          <Link to="/help/pw">비밀번호 찾기</Link> {/* 링크 좀 만들어줍쇼 */}
           </span>
-          <Link to="/Signup">회원가입</Link>
+          <Link to="/signup">회원가입</Link>
         </FooterSpan>
       </Footer>
     </Container>
@@ -97,5 +99,5 @@ const FooterSpan = styled.span`
   justify-content: space-around;
 `;
 
-export default Signup;
+export default Login;
 
