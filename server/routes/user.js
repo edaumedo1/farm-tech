@@ -125,18 +125,25 @@ router.post('/login', function(req,res) {
 router.get('/auth', function(req,res) {
     const Token = req.cookies.Token;
     if(!Token) {
-        res.status(401).send({success:false,why:"Token not found."});
+        res.status(401).send({success:true, isAuth:false, why:"Token not found."});
     } else {
 
-        User.findOne({token:Token}).lean()
-        .then((result) => {
-            if(!result) res.status(500).json({success:false, why:"Token not found."});
+        User.findOne({token:Token}) //methods로 연결할 때는 lean 쓰면 안됨
+        .then((resultDB) => {
+            if(!resultDB) res.status(500).json({success:true, isAuth:false, why:"not authed"});
             else {
-                // result.verifyToken(function(err,result) {
+                resultDB.verifyToken(function(result) {
 
-                //     res.json(result);
-                // })
-                res.json({success:true, isAuth:true, data:result});
+                    if(result === false) res.status(401).json({success:true, isAuth:false, why:"Token verify failed."});
+                    else res.status(401).json({
+                        success:true,
+                        isAuth:true,
+                        birth_day:resultDB.birth_day,
+                        email:resultDB.email,
+                        name:resultDB.name,
+                        nickname:resultDB.nickname
+                    });
+                })
             }
 
         })
