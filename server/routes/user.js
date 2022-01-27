@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 router.use(cookieParser());
 const Mail = require('../middleware/mail');
 const {User,emailAuthentication} = require('../models/User');
+const { JsonWebTokenError } = require('jsonwebtoken');
 
 
 router.get('/',function(req,res,next){
@@ -14,28 +15,40 @@ router.get('/',function(req,res,next){
 router.post('/register', function(req,res) {
     const register_schema = new User(req.body);
 
-    emailAuthentication.findOne({email:register_schema.email}).lean()
+    User.findOne({email:register_schema.email}).lean()
     .then((result) => {
-        if(!result) res.status(401).json({success:false, why:"Authentication Time Expired or Email mismatch."})
+        if(result) res.status(401).json({success:false, why:"Email already exists."});
         else {
-            if(req.body.auth_number.trim() !== result.auth_number) {   //인증번호 일치하는지 확인
-                res.status(401).json({success:false, why:"Auth_Number mismatch."})
-            } else {
-                register_schema.save(function(err) {                 //users DB에 회원정보 저장, pre hook으로 bcrypt 암호화(models-User.js) 회원가입 성공
-                    if(err){
-                        if(err.keyPattern.nickname == 1) {
-                            res.status(401).json({success:false, why:"nickName already exists."})
-                        } else {
-                            console.log(err);
-                            res.status(401).json({success:false, why:err})
-                        }
-                    } else {
-                        res.status(200).json({success:true});
-                    } 
-                })
-            }
+            register();
         }
     })
+    .catch((err) => res.status(500).json({success:false, why:err}))
+
+    function register() {
+        emailAuthentication.findOne({email:register_schema.email}).lean()
+        .then((result) => {
+            if(!result) res.status(401).json({success:false, why:"Authentication Time Expired or Email mismatch."})
+            else {
+                if(req.body.auth_number.trim() !== result.auth_number) {   //인증번호 일치하는지 확인
+                    res.status(401).json({success:false, why:"Auth_Number mismatch."})
+                } else {
+                    register_schema.save(function(err) {                 //users DB에 회원정보 저장, pre hook으로 bcrypt 암호화(models-User.js) 회원가입 성공
+                        if(err){
+                            if(err.keyPattern.nickname == 1) {
+                                res.status(401).json({success:false, why:"nickName already exists."})
+                            } else {
+                                console.log(err);
+                                res.status(401).json({success:false, why:err})
+                            }
+                        } else {
+                            res.status(200).json({success:true});
+                        } 
+                    })
+                }
+            }
+        })
+    }
+    
 })
 
 router.post('/email', function(req,res){
@@ -65,19 +78,12 @@ router.post('/email', function(req,res){
         )
     }
 
-    User.findOne({email:email_url}).lean()
-    .then((result) => {
-        if(result) res.status(401).json({success:false, why:"Email already exists."});
-        else {
-            deleteData(()=> {
-                emailAuth_schema.save(function(err) {
-                    if(err) res.status(500).json({success:false, why:err});
-                    else sendEmail();
-                });
-            })
-        }
+    deleteData(()=> {
+        emailAuth_schema.save(function(err) {
+            if(err) res.status(500).json({success:false, why:err});
+            else sendEmail();
+        });
     })
-    .catch((err) => res.status(500).json({success:false, why:err}))
 })
 
 router.post('/find_email', function(req,res) {
@@ -121,10 +127,17 @@ router.get('/auth', function(req,res) {
     if(!Token) {
         res.status(401).send({success:false,why:"Token not found."});
     } else {
-            User.findOne({token:Token}).lean()
+
+        User.findOne({token:Token}).lean()
         .then((result) => {
-            if(!result) res.status(500).json({success:false, why:"Token invalid."});
-            res.json(result);
+            if(!result) res.status(500).json({success:false, why:"Token not found."});
+            else {
+                // result.verifyToken(function(err,result) {
+
+                //     res.json(result);
+                // })
+                res.json({success:true, data:result});
+            }
 
         })
         .catch((err) => {

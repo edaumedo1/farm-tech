@@ -57,6 +57,11 @@ userSchema.methods.generateToken = function(cb) {
     });
 }
 
+userSchema.methods.verifyToken = function(cb) {
+    var test = this;
+    console.log(test);
+}
+
 
 
 const User = mongoose.model("user", userSchema);
