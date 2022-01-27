@@ -10,6 +10,5 @@ export default function Home() {
             <li><Link to="/help/pw">비밀번호찾기</Link></li>
             <li><Link to="/test">테스트</Link></li>
         </ul>
-        
     )
 }
