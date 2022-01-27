@@ -44,6 +44,8 @@ export default function auth(SpecificComponent, option, adminRoute = null) {
     )
   }
 
-  return AuthenticationCheck;
+  return <>
+    <AuthenticationCheck/>
+  </>;
 }
 
