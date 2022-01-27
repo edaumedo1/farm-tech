@@ -136,7 +136,7 @@ router.get('/auth', function(req,res) {
 
                 //     res.json(result);
                 // })
-                res.json({success:true, data:result});
+                res.json({success:true, isAuth:true, data:result});
             }
 
         })
