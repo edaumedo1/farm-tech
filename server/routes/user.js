@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const cookieParser = require('cookie-parser');
+router.use(cookieParser());
 const Mail = require('../middleware/mail');
 const {User,emailAuthentication} = require('../models/User');
 
@@ -100,7 +102,10 @@ router.post('/login', function(req,res) {
                 else {
                     resultDB.generateToken(function(err,token) {
                         if (err) res.status(500).json({success:false, why: err});
-                        else return res.status(200).json({success:true, token: token});
+                        else {
+                            res.cookie('Token',token, {maxAge:21600000});
+                            return res.status(200).json({success:true});
+                        }
                     })   
                 }
             })
@@ -109,6 +114,23 @@ router.post('/login', function(req,res) {
     .catch((err) => {
         if(err) res.status(500).json({success:false, why:err});
     })
+})
+
+router.get('/auth', function(req,res) {
+    const Token = req.cookies.Token;
+    if(!Token) {
+        res.status(401).send({success:false,why:"Token not found."});
+    } else {
+            User.findOne({token:Token}).lean()
+        .then((result) => {
+            if(!result) res.status(500).json({success:false, why:"Token invalid."});
+            res.json(result);
+
+        })
+        .catch((err) => {
+            if(err) res.status(500).json({success:false, why:err});
+        })
+    }
 })
 
 module.exports = router;

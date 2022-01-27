@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const res = require('express/lib/response');
+const cookieParser = require('cookie-parser');
 const saltRounds = 5;
 
 const userSchema = new mongoose.Schema({    //회원가입 스키마
@@ -55,8 +56,6 @@ userSchema.methods.generateToken = function(cb) {
         cb(null, token)
     });
 }
-
-
 
 
 

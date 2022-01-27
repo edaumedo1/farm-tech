@@ -7,19 +7,19 @@ import Login from "../pages/Login/Login";
 import KakaoRedicrection from "./KakaoRedicrection";
 import Email from "../pages/Help/Email";
 import Pw from "../pages/Help/Pw";
+import auth from "../hoc/auth";
 
 function App() {
   return (
     <BrowserRouter>
       {/* 페이지로써 라우팅 */}
       <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/test" element={<Test />}></Route>
-        <Route path="/oauth/kakao/*" element={<KakaoRedicrection/>} />
-        <Route path="/help/email" element={<Email />}></Route>
-        <Route path="/help/pw" element={<Pw />}></Route>
+        <Route path="/" element={auth(Home, true)}></Route>
+        <Route path="/signup" element={auth(Signup, false)}></Route>
+        <Route path="/login" element={auth(Login, false)}></Route>
+        <Route path="/oauth/kakao/*" element={auth(KakaoRedicrection, false)} />
+        <Route path="/help/email" element={auth(Email, false)}></Route>
+        <Route path="/help/pw" element={auth(Pw, false)}></Route>
         <Route path="*" element={<div>없는 페이지</div>}></Route>
       </Routes>
       {/* <Routes>
