@@ -58,8 +58,11 @@ userSchema.methods.generateToken = function(cb) {
 }
 
 userSchema.methods.verifyToken = function(cb) {
-    var test = this;
-    console.log(test);
+    var info = this;
+    var result = jwt.verify(info.token, '헐');
+    
+    if(JSON.stringify(result) === JSON.stringify(info._id)) cb(true);
+    else cb(false);
 }
 
 
