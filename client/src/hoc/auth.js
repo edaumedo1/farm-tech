@@ -21,7 +21,7 @@ export default function auth(SpecificComponent, option, adminRoute = null) {
       dispatch(authorizeUser()).then(response =>{
         console.log(response);
         // 로그인 하지 않은 상태
-        if(!response.payload.isAuth){
+        if(!response.payload.success){
           if(option){
             navigate('/login');
           }

@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { helpEmail } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo_min.PNG";
@@ -11,7 +9,6 @@ function Email() {
   const help_email = useSelector((state) => state.user.help_email_success);
   const user_email = useSelector((state) => state.user.user_email);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const helpBtn = useRef(null);
 
@@ -58,6 +55,7 @@ function Email() {
   };
 
   const MovePage = useMovePage("/login");
+  // const DelEmail =user_email(false);
 
   // 입력 변화를 감지하는 함수들
   const changeName = (e) => {

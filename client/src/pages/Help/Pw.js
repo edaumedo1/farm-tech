@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import { joinUser, requestAuth } from "../../redux/modules/user";//////////!!!!!!! 수정요함
 import farmlogo from "../../images/farmlogo_min.PNG";
 import useTimer from "../../hook/useTimer";
-import kakaologin from "../../images/kakao_login_ko/kakao_login_large_wide.png";
 import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
 import { useMovePage } from "../../hook/events";
 
@@ -21,18 +20,16 @@ function Pw() {
 
   const authBtn = useRef(null);
   const extensionBtn = useRef(null);
-  const signupBtn = useRef(null);
+  const helpBtn = useRef(null);
   const authInput = useRef(null);
 
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [nickName, setNickName] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordCheck, setPasswordCheck] = useState("");
   const [birthDay, setBirthDay] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [authNumber, setAuthNumber] = useState("");
+  //const [isFind, setIsFind] = useState(false);
+  const [helpPw, setHelpPw] = useState(false);
   const [successData, setSuccessData] = useState(false);
   const [limit, setLimit] = useState(false);
 
@@ -44,6 +41,7 @@ function Pw() {
       alert('다시 요청해주세요');
       setSuccessData(false);
       setLimit(false);
+      setHelpPw(false);
     }
     if(extensionBtn.current && limit===true){
       extensionBtn.current.disabled = "false"
@@ -72,14 +70,14 @@ function Pw() {
     if(authBtn.current){
       authBtn.current.disabled = true;
     }
+
     dispatch(requestAuth(obj)).then((res) => {
       if (res.payload.success) {
         setMinutes(0);
         setSeconds(59);
         setSuccessData(true);
       }
-    }).catch(res =>{
-      if(res.request.status === 401){
+      if(!res.request.status === 401){
         alert('이미 있는 이메일 입니다.');
         authBtn.current.disabled = false;
         return;
@@ -90,35 +88,21 @@ function Pw() {
 
   // 회원가입 기능
   const onSignupHandler = (e) => {
-    const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
 
     e.preventDefault();
-    if(name === "" || email === "" || 
-    nickName === "" || password === "" || 
-    passwordCheck === "" || birthDay ==="" || 
-    phoneNumber === "" || authNumber === ""){
+    if(name === "" || email === "" || birthDay ==="" || authNumber === ""){
       return alert('모두 입력해주세요!');
     }
 
     const obj = {
       name,
       email,
-      nickname: nickName,
-      password,
       birth_day: birthDay.toString,
-      phone_number: phoneNumber,
       auth_number: authNumber,
     }
 
-    if(!pwdCheck.test(password)){
-      return alert("비밀번호는 영문, 숫자, 특수문자 합 8~15자리가 되어야 합니다!");
-    }
-
-    if(password !== passwordCheck){
-      return alert("비밀번호가 일치하지 않습니다!");
-    }
-    if(signupBtn.current){
-      signupBtn.current.disabled = true;
+    if(helpBtn.current){
+      helpBtn.current.disabled = true;
     }
     
     dispatch(joinUser(obj)).then((res) => {
@@ -130,16 +114,16 @@ function Pw() {
       const data = res.response.data.why;
       
       if(res.request.status === 401 && data === "Auth_Number mismatch."){
-        if(signupBtn.current && authInput.current) {
-          signupBtn.current.disabled = false;
+        if(helpBtn.current && authInput.current) {
+          helpBtn.current.disabled = false;
           authInput.current.focus();
         }
         return alert('인증번호가 틀렸습니다. 다시 입력해주세요!');
       }
       if(res.request.status === 401 && data === "Authentication Time Expired or Email mismatch."){
-        console.log(signupBtn.current, authInput.current);
-        if(signupBtn.current && authInput.current) {
-          signupBtn.current.disabled = false;
+        console.log(helpBtn.current, authInput.current);
+        if(helpBtn.current && authInput.current) {
+          helpBtn.current.disabled = false;
           authInput.current.focus();
         }
         return alert('이메일 인증시간이 다 됐거나, 이메일이 틀립니다.');
@@ -227,9 +211,9 @@ function Pw() {
             width="11.5em"
             float="right"
             background="#b5f37e"
-            ref={signupBtn}
+            ref={helpBtn}
           >
-            회원가입
+            다음
           </Button>
         </Box>
       </Form>
