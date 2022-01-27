@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { helpEmail } from "../../redux/modules/user";
 import farmlogo from "../../images/farmlogo_min.PNG";
