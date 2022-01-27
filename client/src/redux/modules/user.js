@@ -108,7 +108,7 @@ export const loginWithKakao = (dataToSubmit) => {
 
 export const authorizeUser = () => {
   const payload = axios
-  .post('/api/user/auth')
+  .get('/api/user/auth')
   .then((res) => res.data)
   .catch((err) => err.response.data);
 
