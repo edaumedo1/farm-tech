@@ -119,9 +119,18 @@ router.post('/login', function(req,res) {
 router.get('/auth', function(req,res) {
     const Token = req.cookies.Token;
     if(!Token) {
-        console.log("쿠키 없음. 또는 로그인 세션(6시간) 만료");
+        res.status(401).send({success:false,why:"Token not found."});
+    } else {
+            User.findOne({token:Token}).lean()
+        .then((result) => {
+            if(!result) res.status(500).json({success:false, why:"Token invalid."});
+            res.json(result);
+
+        })
+        .catch((err) => {
+            if(err) res.status(500).json({success:false, why:err});
+        })
     }
-    res.send({success:true,cookie:req.cookies.Token});
 })
 
 module.exports = router;
