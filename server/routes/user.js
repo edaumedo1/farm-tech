@@ -97,6 +97,26 @@ router.post('/find_email', function(req,res) {
     })  
 })
 
+router.post('/find_pw', function(req,res) {
+    emailAuthentication.findOne({email:req.body.email,auth_number:JSON.stringify(req.body.auth_number)}, function(err,result) {
+        if(err) res.json({success:false, why:err});
+        else {
+            if(!result) res.json({success:false, why:"invalid auth_number"});
+            else {
+                User.findOne({email:req.body.email,birth_day:JSON.stringify(req.body.birth_day),name:req.body.name}, function(err,result) {
+                    if(err) res.json({success:false, why:err});
+                    else {
+                        if(!result) res.json({success:true,helpPw_success:false, why:"user not exists."});
+                        else {
+                            res.json({success:true,requestAuth_success:true}) //?????뭔소리지
+                        }
+                    }
+                }).lean();
+            }
+        }
+    }).lean();
+})
+
 router.post('/login', function(req,res) {
     User.findOne({email:req.body.email})
     .then((resultDB) => {
