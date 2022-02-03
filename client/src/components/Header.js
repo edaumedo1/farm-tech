@@ -5,7 +5,7 @@ import styled from 'styled-components';
 function Header(props) {
   const {title, goToPrevious, actThing} = props;
   return (
-    <Box width="auto" height="20px" margin="10px 0 10px 15%" >
+    <Box width="auto" height="20px" margin="20px 0 10px 15%" >
       <Title>{title}</Title>
       { goToPrevious && <Icon className="fas fa-chevron-left" onClick={goToPrevious} style={{}}></Icon>}
       
