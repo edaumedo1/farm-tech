@@ -108,7 +108,7 @@ router.post('/find_pw', function(req,res) {
                     else {
                         if(!result) res.json({success:true,helpPw_success:false, why:"user not exists."});
                         else {
-                            res.json({success:true,requestAuth_success:true}) //?????뭔소리지
+                            res.json({success:true,requestAuth_success:true}) //user를 찾았으니 'requestAuth_success:true' 값을 넘겨줌
                         }
                     }
                 }).lean();
