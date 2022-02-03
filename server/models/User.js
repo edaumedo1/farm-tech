@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({    //회원가입 스키마
     birth_day: String,
     phone_number: String,
     qualification_no: {type: String, default: 0},
-    token: String
+    token: String,
+    city_code: String
 })
 
 const emailAuthenticationSchema = new mongoose.Schema({

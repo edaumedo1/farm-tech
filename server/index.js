@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3001;
 const user = require('./routes/user');
+const weather = require('./routes/weather');
 
 const DB = require('./DB/init');
 DB.connect();
@@ -23,6 +24,7 @@ app.get("/", function (req, res) {
 // });
 
 app.use("/api/user",user);
+app.use("/api/weather",weather);
 
 app.listen(port, () =>
   console.log(`[backend] 서버측 포트번호는 ${port} 입니다. 몽고DB 연결중...`)
