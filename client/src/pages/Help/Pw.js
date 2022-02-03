@@ -29,7 +29,6 @@ function Pw() {
   const [birthDay, setBirthDay] = useState("");
   const [authNumber, setAuthNumber] = useState("");
   //const [isFind, setIsFind] = useState(false);
-  const [helpPw, setHelpPw] = useState(false);
   const [successData, setSuccessData] = useState(false);
   const [limit, setLimit] = useState(false);
 
@@ -41,7 +40,6 @@ function Pw() {
       alert('다시 요청해주세요');
       setSuccessData(false);
       setLimit(false);
-      setHelpPw(false);
     }
     if(extensionBtn.current && limit===true){
       extensionBtn.current.disabled = "false"
