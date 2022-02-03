@@ -15,6 +15,7 @@ const REQUEST_AUTH = "request_auth";
 const LOGIN_USER = "login_user";
 const LOGIN_WITH_KAKAO = "login_with_kakao";
 const HELP_EMAIL = "help_email";
+const HELP_PW = "help_pw";
 const AUTHORIZE_USER = "authorize_user";
 
 //Initial state
@@ -49,6 +50,11 @@ export default handleActions(
     produce(state, (draft) => {
       draft.help_email_success = action.payload.success;
       draft.user_email = action.payload.email; //server로부터 받는 data
+    }),
+    [HELP_PW]: (state, action) => 
+    produce(state, (draft) => {
+      draft.help_pw_success = action.payload.success;
+      draft.user_pw = action.payload.pw; //server로부터 받는 data
     }),
     //사용자가 가지고 있는 jwt와 데이터베이스에 저장되어있는 jwt 비교 요청
     [AUTHORIZE_USER]: (state, action) =>
@@ -125,6 +131,17 @@ export const helpEmail = (dataToSubmit) => {
     .catch((err) => err.response.data);
   return {
     type: HELP_EMAIL,
+    payload,
+  }
+}
+
+export const helpPw = (dataToSubmit) => {
+  const payload = axios
+    .post('/api/user/find_pw', dataToSubmit)
+    .then((res) => res.data)
+    .catch((err) => err.response.data);
+  return {
+    type: HELP_PW,
     payload,
   }
 }

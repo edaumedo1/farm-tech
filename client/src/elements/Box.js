@@ -28,6 +28,10 @@ const Div = styled.div`
     ${({ background }) => background ? "background:" + background : ""};
     ${({ borderRadius }) => borderRadius ? "border-radius:" + borderRadius : ""};
     ${({ fontWeight }) => fontWeight ? "font-weight:" + fontWeight : ""};
+    ${({ fontSize }) => fontSize ? "font-size:" + fontSize : ""};
+    ${({ position }) => position ? "position:" + position : ""};
+    ${({ top }) => top ? "top:" + top : ""};
+    ${({ bottom }) => bottom ? "bottom:" + bottom : ""};
 
 `;
 
