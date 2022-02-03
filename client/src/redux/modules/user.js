@@ -135,16 +135,16 @@ export const helpEmail = (dataToSubmit) => {
   }
 }
 
-// export const helpPw = (dataToSubmit) => {
-//   const payload = axios
-//     .post('/api/user/find_pw', dataToSubmit)
-//     .then((res) => res.data)
-//     .catch((err) => err.response.data);
-//   return {
-//     type: HELP_PW,
-//     payload,
-//   }
-// }
+export const helpPw = (dataToSubmit) => {
+  const payload = axios
+    .post('/api/user/find_pw', dataToSubmit)
+    .then((res) => res.data)
+    .catch((err) => err.response.data);
+  return {
+    type: HELP_PW,
+    payload,
+  }
+}
 
 //Action Creators: use redux-thunk
 

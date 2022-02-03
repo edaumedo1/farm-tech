@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
+import { helpPw } from "../../redux/modules/user";
 import { joinUser, requestAuth } from "../../redux/modules/user";//////////!!!!!!! 수정요함
 import farmlogo from "../../images/farmlogo_min.PNG";
 import useTimer from "../../hook/useTimer";
@@ -103,28 +104,29 @@ function Pw() {
       helpBtn.current.disabled = true;
     }
     
-    dispatch(joinUser(obj)).then((res) => {
+    dispatch(helpPw(obj)).then((res) => {
       if(res.payload.success) {
         alert('성공!');
         navigate('/login');
       }
-    }).catch(res => {
-      const data = res.response.data.why;
-      
-      if(res.request.status === 401 && data === "Auth_Number mismatch."){
-        if(helpBtn.current && authInput.current) {
-          helpBtn.current.disabled = false;
-          authInput.current.focus();
+      if(!res.payload.success){
+        const data = res.response.data.why;
+        
+        if(res.request.status === 401 && data === "Auth_Number mismatch."){
+          if(helpBtn.current && authInput.current) {
+            helpBtn.current.disabled = false;
+            authInput.current.focus();
+          }
+          return alert('인증번호가 틀렸습니다. 다시 입력해주세요!');
         }
-        return alert('인증번호가 틀렸습니다. 다시 입력해주세요!');
-      }
-      if(res.request.status === 401 && data === "Authentication Time Expired or Email mismatch."){
-        console.log(helpBtn.current, authInput.current);
-        if(helpBtn.current && authInput.current) {
-          helpBtn.current.disabled = false;
-          authInput.current.focus();
+        if(res.request.status === 401 && data === "Authentication Time Expired or Email mismatch."){
+          console.log(helpBtn.current, authInput.current);
+          if(helpBtn.current && authInput.current) {
+            helpBtn.current.disabled = false;
+            authInput.current.focus();
+          }
+          return alert('이메일 인증시간이 다 됐거나, 이메일이 틀립니다.');
         }
-        return alert('이메일 인증시간이 다 됐거나, 이메일이 틀립니다.');
       }
     });
   };
