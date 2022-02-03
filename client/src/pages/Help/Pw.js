@@ -76,11 +76,6 @@ function Pw() {
         setSeconds(59);
         setSuccessData(true);
       }
-      if(!res.request.status === 401){
-        alert('이미 있는 이메일 입니다.');
-        authBtn.current.disabled = false;
-        return;
-      }
     });
   };
 
@@ -101,13 +96,12 @@ function Pw() {
     }
 
     if(helpBtn.current){
-      helpBtn.current.disabled = true;
+      helpBtn.current.disabled = false;
     }
     
     dispatch(helpPw(obj)).then((res) => {
       if(res.payload.success) {
         alert('성공!');
-        navigate('/login');
       }
       if(!res.payload.success){
         const data = res.response.data.why;
@@ -154,67 +148,29 @@ function Pw() {
         <Img src={farmlogo} width="36px" height="36px" alt="React" />
         <h2>비밀번호 찾기</h2>
       </Box>
-      <Form 
-      onSubmit={Authorize}
-      >
-        <Input
-          type="text"
-          placeholder="이름"
-          value={name}
-          onChange={changeName}
-        />
-        <Input
-          type="number"
-          placeholder="생년월일(8자리)"
-          value={birthDay}
-          onChange={changeBirhDay}
-        />
+      
+      <Form onSubmit={Authorize} >
+        <Input type="text" placeholder="이름" value={name} onChange={changeName} />
+        <Input type="number" placeholder="생년월일(8자리)" value={birthDay} onChange={changeBirhDay} />
       </Form>
+
       <Form onSubmit={Authorize}>
         {/* 인증번호 입력 */}
         <Box width="17em">
-          <Input
-            type="email"
-            value={email}
-            onChange={changeEmail}
-            placeholder="이메일"
-          />
-            <Input
-              placeholder={`${
-                successData ? minutes + ":" + seconds : "인증번호 6자리"
-              }`}
-              width="11.5em"
-              value={authNumber}
-              onChange={changeAuthNumber}
-              ref={authInput}
-            />
+          <Input type="email" value={email} onChange={changeEmail} placeholder="이메일" />
+          <Input placeholder={`${ successData ? minutes + ":" + seconds : "인증번호 6자리" }`}
+              width="11.5em" value={authNumber} onChange={changeAuthNumber} ref={authInput} />
             {/* 3항 연산자를 쓸 수 없다. 쓰게 되면 연장버튼에도 요청의 스타일이 묻게 된다. */}
             {successData && <Button type="button" onClick={ExtendHandler} ref={extensionBtn} float="right">연장</Button>}
-            {successData === false &&<Button type="submit" ref={authBtn} float="right">
-              요청
-            </Button>}
+            {successData === false &&<Button type="submit" ref={authBtn} float="right">요청</Button>}
         </Box>
       </Form>
+      
       <Form onSubmit={onSignupHandler}>
         {/* 회원가입 완료 취소 버튼 */}
         <Box width="17em" margin="1em 0">
-          <Button
-            type="button"
-            width="4.5em"
-            onClick={useMovePage("/login")}
-          >
-            취소
-          </Button>
-          <Button
-            type="submit"
-            id="subBtn"
-            width="11.5em"
-            float="right"
-            background="#b5f37e"
-            ref={helpBtn}
-          >
-            다음
-          </Button>
+          <Button type="button" width="4.5em" onClick={useMovePage("/login")}>취소</Button>
+          <Button type="submit" id="subBtn" width="11.5em" float="right" background="#b5f37e" ref={helpBtn}>다음</Button>
         </Box>
       </Form>
     </Container>
