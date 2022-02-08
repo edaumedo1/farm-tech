@@ -54,7 +54,7 @@ function WeatherBlock({ el, index }) {
         <span style={{ color: "red", fontWeight: "bold" }}>{temp.max.toFixed(1)}</span>
         <span style={{ color: "blue", fontWeight: "bold" }}>{temp.min.toFixed(1)}</span>
       </Center>
-      <span style={{color: "royalblue", fontWeight:"bold"}}>{pop}%</span>
+      <span style={{color: "royalblue", fontWeight:"bold"}}>{pop*100}%</span>
     </Container>
   );
 }

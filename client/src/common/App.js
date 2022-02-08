@@ -14,6 +14,7 @@ function App() {
   return (
     <BrowserRouter>
       {/* 페이지로써 라우팅 */}
+    <Navigation/>
       <Routes>
         <Route path="/" element={auth(Home, true)}></Route>
         <Route path="/signup" element={auth(Signup, false)}></Route>
@@ -31,7 +32,6 @@ function App() {
         <Route path="/about" element={<About />}></Route>
       </Routes> */}
 
-      <Navigation/>
     </BrowserRouter>
   );
 }
