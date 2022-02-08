@@ -22,6 +22,7 @@ const Div = styled.div`
     height: ${({ height }) => height };
     margin: ${({ margin}) => margin };
     display: ${({ display}) => display };
+    flex-direction: ${({direction}) => direction}
     gap: ${({ gap}) => gap };
     text-align: ${({ textAlign}) => textAlign };
     padding: ${({ padding}) => padding };
@@ -32,6 +33,8 @@ const Div = styled.div`
     ${({ position }) => position ? "position:" + position : ""};
     ${({ top }) => top ? "top:" + top : ""};
     ${({ bottom }) => bottom ? "bottom:" + bottom : ""};
+    ${({ bgcolor }) => bgcolor ? "background-color:" + bgcolor : ""};
+    ${({ rowSortKind }) => rowSortKind ? "justify-content: " + rowSortKind : ""};
 
 `;
 
