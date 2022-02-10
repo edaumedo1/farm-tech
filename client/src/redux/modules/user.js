@@ -59,7 +59,7 @@ export default handleActions(
     //사용자가 가지고 있는 jwt와 데이터베이스에 저장되어있는 jwt 비교 요청
     [AUTHORIZE_USER]: (state, action) =>
     produce(state, (draft) => {
-      draft.user_data = action.payload.user_data;
+      draft.user_data = action.payload;
     })
   },
   initialState
@@ -146,7 +146,7 @@ export const helpEmail = (dataToSubmit) => {
 //   }
 // }
 
-//Action Creators: use redux-thunk
+/*Action Creators: use redux-thunk*/
 
 // const requestNumber = createAction(REQUEST_AUTH, (data) => ({data}));
 

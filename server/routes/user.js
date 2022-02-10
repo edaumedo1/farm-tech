@@ -135,7 +135,7 @@ router.get('/auth', function(req,res) {
                 resultDB.verifyToken(function(result) {
 
                     if(result === false) res.status(401).json({success:true, isAuth:false, why:"Token verify failed."});
-                    else res.status(401).json({
+                    else res.json({
                         success:true,
                         isAuth:true,
                         birth_day:resultDB.birth_day,
