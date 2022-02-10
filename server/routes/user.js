@@ -106,7 +106,7 @@ router.post('/find_pw', function(req,res) {
                 User.findOne({email:req.body.email,birth_day:req.body.birth_day,name:req.body.name}, function(err,result) {
                     if(err) res.json({success:false, why:err});
                     else {
-                        if(!result) res.status(401).json({success:true,helpPw_success:false, why:"Authentication Time Expired or Email mismatch."});
+                        if(!result) res.status(401).json({success:true,requestAuth_success:false, why:"Authentication Time Expired or Email mismatch."});
                         else {
                             res.json({success:true,requestAuth_success:true}) //user를 찾았으니 'requestAuth_success:true' 값을 넘겨줌
                         }
