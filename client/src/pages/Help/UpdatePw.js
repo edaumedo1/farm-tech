@@ -9,8 +9,9 @@ import farmlogo from "../../images/farmlogo_min.PNG";
 import useTimer from "../../hook/useTimer";
 import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
 import { useMovePage } from "../../hook/events";
+import { password } from "@mui/icons-material";
 
-function Pw() {
+function UpdatePw() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,75 +26,38 @@ function Pw() {
   const authInput = useRef(null);
 
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthDay, setBirthDay] = useState("");
-  const [authNumber, setAuthNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
   //const [isFind, setIsFind] = useState(false);
-  const [successData, setSuccessData] = useState(false);
-  const [limit, setLimit] = useState(false);
 
   //타이머에 감시자
-  useEffect(() => {
-    if (minutes === "0" && seconds === "0" && successData === true) {
-      console.log(minutes, typeof minutes);
-      console.log("타이머 초기화 상태");
-      alert('다시 요청해주세요');
-      setSuccessData(false);
-      setLimit(false);
-    }
-    if(extensionBtn.current && limit===true){
-      extensionBtn.current.disabled = "false"
-    }
-  }, [limit, minutes, seconds, successData]);
 
   //타이머 연장 기능
-  const ExtendHandler = () => {
-    alert("3분이 더 추가 되었습니다.");
-    setMinutes(1 + minutes);
-    setLimit(true);
-  } 
 
   //인증번호 요청할 때 사용하는 함수
-  const Authorize = (e) => {
-    e.preventDefault();
-    if (email === "") {
-      alert("이메일 입력해주세요!");
-      return;
-    }
-    
-    const obj = {
-      email: email,
-    };
-
-    if(authBtn.current){
-      authBtn.current.disabled = true;
-    }
-
-    dispatch(requestAuth(obj)).then((res) => {
-      if (res.payload.success) {
-        setMinutes(0);
-        setSeconds(59);
-        setSuccessData(true);
-      }
-    });
-  };
 
 
   // 회원가입 기능
-  const onPwHandler = (e) => {
+  const onUpdateHandler = (e) => {
+    const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
 
     e.preventDefault();
-    if(name === "" || email === "" || birthDay ==="" || authNumber === ""){
+    if(password === "" || passwordCheck ===""){
       return alert('모두 입력해주세요!');
     }
 
     const obj = {
-      name,
-      email,
-      birth_day: birthDay.toString,
-      auth_number: authNumber,
+      password,
+      passwordCheck
     }
+
+    if(!pwdCheck.test(password)){
+        return alert("비밀번호는 영문, 숫자, 특수문자 합 8~15자리가 되어야 합니다!");
+      }
+  
+      if(password !== passwordCheck){
+        return alert("비밀번호가 일치하지 않습니다!");
+      }
 
     if(helpBtn.current){
       helpBtn.current.disabled = false;
@@ -130,19 +94,13 @@ function Pw() {
   };
 
   // 입력 변화를 감지하는 함수들
-  const changeEmail = (e) => {
-    setEmail(e.target.value);
+  const changePw = (e) => {
+    setPassword(e.target.value);
   };
-  const changeName = (e) => {
-    setName(e.target.value);
-  };
-  const changeBirhDay = (e) => {
+  const changePwCheck = (e) => {
     if(e.target.value.length <=8){
-      setBirthDay(e.target.value);
+      setPasswordCheck(e.target.value);
     }
-  };
-  const changeAuthNumber = (e) => {
-    setAuthNumber(e.target.value);
   };
   
   return (
@@ -153,24 +111,9 @@ function Pw() {
         <h2>비밀번호 찾기</h2>
       </Box>
       
-      <Form onSubmit={Authorize} >
-        <Input type="text" placeholder="이름" value={name} onChange={changeName} />
-        <Input type="number" placeholder="생년월일(8자리)" value={birthDay} onChange={changeBirhDay} />
-      </Form>
-
-      <Form onSubmit={Authorize}>
-        {/* 인증번호 입력 */}
-        <Box width="17em">
-          <Input type="email" value={email} onChange={changeEmail} placeholder="이메일" />
-          <Input placeholder={`${ successData ? minutes + ":" + seconds : "인증번호 6자리" }`}
-              width="11.5em" value={authNumber} onChange={changeAuthNumber} ref={authInput} />
-            {/* 3항 연산자를 쓸 수 없다. 쓰게 되면 연장버튼에도 요청의 스타일이 묻게 된다. */}
-            {successData && <Button type="button" onClick={ExtendHandler} ref={extensionBtn} float="right">연장</Button>}
-            {successData === false &&<Button type="submit" ref={authBtn} float="right">요청</Button>}
-        </Box>
-      </Form>
-      
-      <Form onSubmit={onPwHandler}>
+      <Form onSubmit={onUpdateHandler}>
+          <Input type="password" placeholder="비밀번호" value={password} onChange={changePw} />
+        <Input type="password" placeholder="비밀번호확인" value={passwordCheck} onChange={changePwCheck} />
         {/* 회원가입 완료 취소 버튼 */}
         <Box width="17em" margin="1em 0">
           <Button type="button" width="4.5em" onClick={useMovePage("/login")}>취소</Button>
@@ -181,5 +124,5 @@ function Pw() {
   );
 }
 
-export default Pw;
+export default UpdatePw;
 
