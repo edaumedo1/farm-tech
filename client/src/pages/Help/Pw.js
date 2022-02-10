@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { helpPw } from "../../redux/modules/user";
-import { joinUser, requestAuth } from "../../redux/modules/user";//////////!!!!!!! 수정요함
+import { updatePw, requestAuth } from "../../redux/modules/user";//////////!!!!!!! 수정요함
 import farmlogo from "../../images/farmlogo_min.PNG";
 import useTimer from "../../hook/useTimer";
 import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
@@ -119,9 +119,11 @@ function Pw() {
         if(res.payload.requestAuth_success){
           alert('성공!');
           console.log(obj.email);
-          navigate("/update_pw", {
-            email: obj.email,
-            success: true,
+          navigate("/help/update_pw", {
+            state:{
+              email: obj.email,
+              success: true,
+            }
           });
         }
       }
