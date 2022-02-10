@@ -16,7 +16,10 @@ Center.defaultProps = {
 const Cnt = styled.div`
     display: ${({ display }) => display };
     align-items: ${({ alignItems }) => alignItems };
+    ${({ rowSortKind }) => "justify-content:" + rowSortKind };
     flex-direction: ${({ flexDirection }) => flexDirection };
+    ${({height}) => "height:" + height};
+    ${({width}) => "width:" + width};
 `;
 
 export default Center;

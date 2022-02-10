@@ -103,10 +103,10 @@ router.post('/find_pw', function(req,res) {
         else {
             if(!result) res.status(401).json({success:false, why:"Auth_Number mismatch."});
             else {
-                User.findOne({email:req.body.email,birth_day:req.body.birth_day,name:req.body.name}, function(err,result) {
+                User.findOne({email:req.body.email, birth_day:req.body.birth_day, name:req.body.name}, function(err,result) {
                     if(err) res.json({success:false, why:err});
                     else {
-                        if(!result) res.status(401).json({success:true,helpPw_success:false, why:"Authentication Time Expired or Email mismatch."});
+                        if(!result) res.status(401).json({success:true, helpPw_success:false, why:"Authentication Time Expired or Email mismatch."});
                         else {
                             res.json({success:true,requestAuth_success:true}) //user를 찾았으니 'requestAuth_success:true' 값을 넘겨줌
                         }
@@ -155,7 +155,7 @@ router.get('/auth', function(req,res) {
                 resultDB.verifyToken(function(result) {
 
                     if(result === false) res.status(401).json({success:true, isAuth:false, why:"Token verify failed."});
-                    else res.status(401).json({
+                    else res.json({
                         success:true,
                         isAuth:true,
                         birth_day:resultDB.birth_day,
