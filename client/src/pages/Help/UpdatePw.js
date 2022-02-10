@@ -11,31 +11,16 @@ import { Container, Button, Form, Input, Img, Box, Center } from "../../elements
 import { useMovePage } from "../../hook/events";
 import { password } from "@mui/icons-material";
 
-function UpdatePw() {
-
+function UpdatePw({route}) {
+  const { email, success } = route.params;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { minutes, seconds, setMinutes, setSeconds } = useTimer({
-    mm: 0,
-    ss: 0,
-  });
 
-  const authBtn = useRef(null);
-  const extensionBtn = useRef(null);
   const helpBtn = useRef(null);
   const authInput = useRef(null);
 
-
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
-  //const [isFind, setIsFind] = useState(false);
-
-  //타이머에 감시자
-
-  //타이머 연장 기능
-
-  //인증번호 요청할 때 사용하는 함수
-
 
   // 회원가입 기능
   const onUpdateHandler = (e) => {
@@ -47,8 +32,8 @@ function UpdatePw() {
     }
 
     const obj = {
+      email: JSON.stringify(email),
       password,
-      passwordCheck
     }
 
     if(!pwdCheck.test(password)){

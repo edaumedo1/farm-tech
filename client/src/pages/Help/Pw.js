@@ -9,6 +9,7 @@ import farmlogo from "../../images/farmlogo_min.PNG";
 import useTimer from "../../hook/useTimer";
 import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
 import { useMovePage } from "../../hook/events";
+import { NavigateBefore } from "@mui/icons-material";
 
 function Pw() {
 
@@ -91,9 +92,11 @@ function Pw() {
     const obj = {
       name,
       email,
-      birth_day: birthDay.toString,
+      birth_day: birthDay,
       auth_number: authNumber,
     }
+
+    console.log(obj.email);
 
     if(helpBtn.current){
       helpBtn.current.disabled = false;
@@ -115,6 +118,11 @@ function Pw() {
         }
         if(res.payload.requestAuth_success){
           alert('성공!');
+          console.log(obj.email);
+          navigate("/update_pw", {
+            email: obj.email,
+            success: true,
+          });
         }
       }
       if(!res.payload.success){
