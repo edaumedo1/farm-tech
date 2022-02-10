@@ -3,9 +3,8 @@ const mongoose = require('mongoose');
 
 const openWeatherSchema = new mongoose.Schema({    //Open Weather DB 스키마
     city_code: Number,
-    lat: Number,
-    lon: Number,
     data: Object,
+    test:String,
     createdAt: { type: Date, default: Date.now }
 })
 
