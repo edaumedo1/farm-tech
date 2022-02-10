@@ -97,6 +97,27 @@ router.post('/find_email', function(req,res) {
     })  
 })
 
+router.post('/find_pw', function(req,res) {
+    emailAuthentication.findOne({email:req.body.email,auth_number:req.body.auth_number}, function(err,result) {
+        if(err) res.status(500).json({success:false, why:err});
+        else {
+            if(!result) res.status(401).json({success:false, why:"Auth_Number mismatch."});
+            else {
+                User.findOne({email:req.body.email, birth_day:req.body.birth_day, name:req.body.name}, function(err,result) {
+                    if(err) res.json({success:false, why:err});
+                    else {
+                        if(!result) res.status(401).json({success:true, helpPw_success:false, why:"Authentication Time Expired or Email mismatch."});
+                        else {
+                            res.json({success:true,requestAuth_success:true}) //user를 찾았으니 'requestAuth_success:true' 값을 넘겨줌
+                        }
+                    }
+                }).lean();
+            }
+        }
+    }).lean();
+})
+
+
 router.post('/login', function(req,res) {
     User.findOne({email:req.body.email})
     .then((resultDB) => {

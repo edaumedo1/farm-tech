@@ -9,6 +9,8 @@ import Navigation from "../components/Navigation";
 import Pw from "../pages/Help/Pw";
 import auth from "../hoc/auth";
 import Weather from "../pages/Weather/Weather";
+import UpdatePw from "../pages/Help/UpdatePw";
+
 function App() {
   return (
     <BrowserRouter>
@@ -21,7 +23,8 @@ function App() {
         <Route path="/oauth/kakao/*" element={auth(KakaoRedicrection, false)} />
         <Route path="/help/email" element={auth(Email, false)}></Route>
         <Route path="/help/pw" element={auth(Pw, false)}></Route>
-        <Route path="/weather" element={auth(Weather, true)}></Route>
+        <Route path="/help/update_pw" element={auth(UpdatePw, false)}></Route>
+        <Route path="/weather" element={auth(Weather, null)}></Route>
         <Route path="*" element={<div>없는 페이지</div>}></Route>
       </Routes>
       {/* <Routes>
