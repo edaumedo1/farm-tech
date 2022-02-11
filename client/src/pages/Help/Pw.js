@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { helpPw } from "../../redux/modules/user";
-import { updatePw, requestAuth } from "../../redux/modules/user";//////////!!!!!!! 수정요함
+import { requestAuth } from "../../redux/modules/user";//////////!!!!!!! 수정요함
 import farmlogo from "../../images/farmlogo_min.PNG";
 import useTimer from "../../hook/useTimer";
-import { Container, Button, Form, Input, Img, Box, Center } from "../../elements"; // STYLE
+import { Container, Button, Form, Input, Img, Box } from "../../elements"; // STYLE
 import { useMovePage } from "../../hook/events";
-import { NavigateBefore } from "@mui/icons-material";
 
 function Pw() {
 
