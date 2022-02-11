@@ -24,7 +24,7 @@ const showIcon = (name) => {
 const navList = [
   {
     name: "달력",
-    path: "/canlendar"
+    path: "/calendar"
   },
   {
     name: "시세",

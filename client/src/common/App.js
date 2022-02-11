@@ -10,6 +10,7 @@ import Pw from "../pages/Help/Pw";
 import auth from "../hoc/auth";
 import Weather from "../pages/Weather/Weather";
 import UpdatePw from "../pages/Help/UpdatePw";
+import Calendar from "../pages/Calendar/Calendar";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/help/pw" element={auth(Pw, false)}></Route>
         <Route path="/help/update_pw" element={auth(UpdatePw, false)}></Route>
         <Route path="/weather" element={auth(Weather, null)}></Route>
+        <Route path="/calendar" element={auth(Calendar, null)}></Route>
         <Route path="*" element={<div>없는 페이지</div>}></Route>
       </Routes>
       {/* <Routes>
