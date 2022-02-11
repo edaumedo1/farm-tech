@@ -44,7 +44,7 @@ function UpdatePw() {
       }
 
     if(updateBtn.current){
-      updateBtn.current.disabled = false;
+      updateBtn.current.disabled = true;
     }
     
     dispatch(updatePw(obj)).then((res) => {

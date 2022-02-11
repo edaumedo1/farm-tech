@@ -81,9 +81,8 @@ function Pw() {
   };
 
 
-  // 회원가입 기능
+  // 비밀번호 찾기 기능
   const onPwHandler = (e) => {
-
     e.preventDefault();
     if(name === "" || email === "" || birthDay ==="" || authNumber === ""){
       return alert('모두 입력해주세요!');
@@ -99,11 +98,10 @@ function Pw() {
     console.log(obj.email);
 
     if(helpBtn.current){
-      helpBtn.current.disabled = false;
+      helpBtn.current.disabled = true;
     }
     
     dispatch(helpPw(obj)).then((res) => {
-
       const data = res.payload.why;
       if(res.payload.success) {
         if(!res.payload.helpPw_success){
