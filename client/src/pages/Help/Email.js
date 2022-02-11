@@ -26,7 +26,7 @@ function Email() {
   //회원가입 기능
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    if(name === "" || birthDay ==="" || 
+    if(name === "" || birthDay === "" || 
     phoneNumber === ""){
       return alert('모두 입력해주세요!');
     }
