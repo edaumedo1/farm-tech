@@ -117,7 +117,6 @@ router.post('/find_pw', function(req,res) {
     }).lean();
 })
 
-
 router.post('/login', function(req,res) {
     User.findOne({email:req.body.email})
     .then((resultDB) => {

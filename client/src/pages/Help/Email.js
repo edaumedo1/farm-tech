@@ -23,7 +23,7 @@ function Email() {
     }
   },[]);
   
-  //회원가입 기능
+  //이메일 찾기 기능
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if(name === "" || birthDay === "" || 
@@ -36,8 +36,13 @@ function Email() {
       birth_day: birthDay,
       phone_number: phoneNumber,
     }
-    
+
+    if(helpBtn.current) {
+        helpBtn.current.disabled = true;
+    }
+
     dispatch(helpEmail(obj)).then((res) => {
+      
       if(res.payload.success) {
         if(helpBtn.current) {
           helpBtn.current.disabled = false;
@@ -55,7 +60,6 @@ function Email() {
   };
 
   const MovePage = useMovePage("/login");
-  // const DelEmail =user_email(false);
 
   // 입력 변화를 감지하는 함수들
   const changeName = (e) => {
