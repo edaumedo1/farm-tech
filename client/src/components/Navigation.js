@@ -54,7 +54,9 @@ function Navigation() {
   const [isClick, setIsClick] = useState(false);
   
   const clickButton = (e) => {
-    if(isClick && (!webMenu.current || !webMenu.current.contains(e.target))){
+    // 정보를 찾아야겠다.
+    // if(isClick && (!webMenu.current || !webMenu.current.contains(e.target))){
+    if(isClick){
       setIsClick(false);
     }
   }
@@ -110,35 +112,4 @@ function Navigation() {
   );
 }
 
-
-
 export default Navigation;
-
-          // <li>
-          //   <Link to="/canlendar">달력</Link>
-          // </li>
-          // <li>
-          //   <Link to="/graph">시세</Link>
-          // </li>
-          // <li>
-          //   <Link to="/weather">날씨</Link>
-          // </li>
-          // <li>
-          //   <Link to="/profile">내 정보</Link>
-          // </li>
-
-// {/* <li>
-//           <Link to="/canlendar"><CalendarTodayTwoTone/></Link>
-//         </li>
-//         <li>
-//           <Link to="/graph"><AssessmentTwoTone/></Link>
-//         </li>
-//         <li>
-//           <Link to="/"><HomeTwoTone/></Link>
-//         </li>
-//         <li>
-//           <Link to="/weather"><WbSunnyTwoTone/></Link>
-//         </li>
-//         <li>
-//           <Link to="/profile"><AccountCircleTwoTone/></Link>
-//         </li> */}
